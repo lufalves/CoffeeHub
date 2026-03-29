@@ -1,0 +1,85 @@
+@page
+@model CoffeeHub.Web.Pages.Home.IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<section class="home-hero">
+    <div>
+        <span class="home-kicker">Coffee feed</span>
+        <h1>Discover coffees in a simple catalog inspired by the feel of a tasting platform.</h1>
+        <p class="home-lead">
+            The home page now works as a general coffee showcase. Later this can evolve into
+            recommendations, top-rated coffees, trending roasteries, and personalized sections.
+        </p>
+    </div>
+
+    <div class="home-card home-card-welcome">
+        <span class="home-card-label">Signed in as</span>
+        <strong>@Model.WelcomeName</strong>
+        <p>@Model.Coffees.Count coffee @(Model.Coffees.Count == 1 ? "entry is" : "entries are") currently available in the catalog.</p>
+    </div>
+</section>
+
+<section class="home-section-header">
+    <div>
+        <span class="home-card-label">Catalog</span>
+        <h2>All coffees</h2>
+    </div>
+    <p>Current list ordered by name. This is the base feed before ranking and recommendation layers.</p>
+</section>
+
+@if (Model.Coffees.Count == 0)
+{
+    <section class="home-empty-state">
+        <h3>No coffees registered yet</h3>
+        <p>
+            Your database is ready, but the catalog is still empty. The next useful step is to create
+            the first coffee records so the home page can start behaving like a real tasting feed.
+        </p>
+    </section>
+}
+else
+{
+    <section class="coffee-feed">
+        @foreach (var coffee in Model.Coffees)
+        {
+            <article class="coffee-feed-card">
+                <div class="coffee-feed-top">
+                    <span class="coffee-feed-chip">Coffee</span>
+                    <span class="coffee-feed-date">@coffee.CreatedAt.ToLocalTime().ToString("dd MMM yyyy")</span>
+                </div>
+
+                <h3>@coffee.Name</h3>
+
+                @if (!string.IsNullOrWhiteSpace(coffee.Description))
+                {
+                    <p>@coffee.Description</p>
+                }
+                else
+                {
+                    <p class="coffee-feed-muted">This coffee does not have a description yet.</p>
+                }
+
+                <dl class="coffee-feed-meta">
+                    <div>
+                        <dt>Barcode</dt>
+                        <dd>@coffee.Barcode</dd>
+                    </div>
+                    <div>
+                        <dt>Roastery</dt>
+                        <dd>@coffee.RoasteryId</dd>
+                    </div>
+                    <div>
+                        <dt>Origin</dt>
+                        <dd>@(coffee.OriginId?.ToString() ?? "Not informed")</dd>
+                    </div>
+                    <div>
+                        <dt>Roast level</dt>
+                        <dd>@(coffee.RoastLevelId?.ToString() ?? "Not informed")</dd>
+                    </div>
+                </dl>
+            </article>
+        }
+    </section>
+}

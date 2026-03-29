@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Coffee\" />
+    <Folder Include="BrewingMethod\" />
+    <Folder Include="Farm\" />
+    <Folder Include="Origin\" />
+    <Folder Include="RoastLevel\" />
+    <Folder Include="BeanVariety\" />
+    <Folder Include="Review\" />
+    <Folder Include="CoffeeShop\" />
+    <Folder Include="Roastery\" />
+    <Folder Include="Recipe\" />
+  </ItemGroup>
+
+</Project>
