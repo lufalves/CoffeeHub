@@ -1,6 +1,8 @@
+using CoffeeHub.Application.Common;
 using CoffeeHub.Application.Interfaces;
 using CoffeeHub.Application.Services;
 using CoffeeHub.Domain.Coffee;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace CoffeeHub.Tests;
 
@@ -10,7 +12,7 @@ public class CoffeeServiceTests
     public async Task CreateAsync_ShouldCreateCoffee_WhenDataIsValid()
     {
         var repository = new FakeCoffeeRepository();
-        var service = new CoffeeService(repository);
+        var service = new CoffeeService(repository, NullLogger<CoffeeService>.Instance);
 
         var coffee = new Coffee
         {
@@ -30,7 +32,7 @@ public class CoffeeServiceTests
     public async Task CreateAsync_ShouldThrow_WhenRoasteryIdIsEmpty()
     {
         var repository = new FakeCoffeeRepository();
-        var service = new CoffeeService(repository);
+        var service = new CoffeeService(repository, NullLogger<CoffeeService>.Instance);
 
         var coffee = new Coffee
         {
@@ -46,7 +48,7 @@ public class CoffeeServiceTests
     public async Task UpdateAsync_ShouldReturnNull_WhenCoffeeDoesNotExist()
     {
         var repository = new FakeCoffeeRepository();
-        var service = new CoffeeService(repository);
+        var service = new CoffeeService(repository, NullLogger<CoffeeService>.Instance);
 
         var result = await service.UpdateAsync(new Coffee
         {
@@ -76,7 +78,7 @@ public class CoffeeServiceTests
             CoffeeById = existingCoffee
         };
 
-        var service = new CoffeeService(repository);
+        var service = new CoffeeService(repository, NullLogger<CoffeeService>.Instance);
 
         var result = await service.UpdateAsync(new Coffee
         {
@@ -97,7 +99,7 @@ public class CoffeeServiceTests
     public async Task SoftDeleteAsync_ShouldReturnFalse_WhenCoffeeDoesNotExist()
     {
         var repository = new FakeCoffeeRepository();
-        var service = new CoffeeService(repository);
+        var service = new CoffeeService(repository, NullLogger<CoffeeService>.Instance);
 
         var result = await service.SoftDeleteAsync(Guid.NewGuid());
 
@@ -121,7 +123,7 @@ public class CoffeeServiceTests
             CoffeeById = existingCoffee
         };
 
-        var service = new CoffeeService(repository);
+        var service = new CoffeeService(repository, NullLogger<CoffeeService>.Instance);
 
         var result = await service.SoftDeleteAsync(existingCoffee.Id);
 
@@ -143,7 +145,7 @@ public class CoffeeServiceTests
             }
         };
 
-        var service = new CoffeeService(repository);
+        var service = new CoffeeService(repository, NullLogger<CoffeeService>.Instance);
 
         var coffee = new Coffee
         {
@@ -159,7 +161,7 @@ public class CoffeeServiceTests
     public async Task CreateAsync_ShouldThrow_WhenBarcodeIsEmpty()
     {
         var repository = new FakeCoffeeRepository();
-        var service = new CoffeeService(repository);
+        var service = new CoffeeService(repository, NullLogger<CoffeeService>.Instance);
 
         var coffee = new Coffee
         {
@@ -210,6 +212,36 @@ public class CoffeeServiceTests
         {
             SoftDeletedCoffeeId = id;
             return Task.CompletedTask;
+        }
+
+        public Task<PagedResult<Coffee>> GetPagedAsync(int page, int pageSize, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(new PagedResult<Coffee>());
+        }
+
+        public Task<PagedResult<Coffee>> GetPagedAsync(int page, int pageSize, Guid? roasteryId = null, Guid? originId = null, Guid? roastLevelId = null, Guid? beanVarietyId = null, string? searchTerm = null, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(new PagedResult<Coffee>());
+        }
+
+        public Task<Coffee?> GetByIdWithDetailsAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(CoffeeById?.Id == id ? CoffeeById : null);
+        }
+
+        public Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(0);
+        }
+
+        public Task<PagedResult<Coffee>> GetByRoasteryIdAsync(Guid roasteryId, int page, int pageSize, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(new PagedResult<Coffee>());
+        }
+
+        public Task<PagedResult<Coffee>> GetByOriginIdAsync(Guid originId, int page, int pageSize, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(new PagedResult<Coffee>());
         }
     }
 }
