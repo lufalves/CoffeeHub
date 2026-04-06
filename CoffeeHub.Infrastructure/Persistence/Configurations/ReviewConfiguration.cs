@@ -25,9 +25,9 @@ public class ReviewConfiguration : IEntityTypeConfiguration<Review>
             .HasForeignKey(review => review.UserId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne<Coffee>()
+        builder.HasOne(r => r.Coffee)
             .WithMany()
-            .HasForeignKey(review => review.CoffeeId)
+            .HasForeignKey(r => r.CoffeeId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

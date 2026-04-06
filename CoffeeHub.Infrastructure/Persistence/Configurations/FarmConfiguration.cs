@@ -22,9 +22,9 @@ public class FarmConfiguration : IEntityTypeConfiguration<Farm>
         builder.Property(farm => farm.Description)
             .HasMaxLength(2000);
 
-        builder.HasOne<Origin>()
+        builder.HasOne(f => f.Origin)
             .WithMany()
-            .HasForeignKey(farm => farm.OriginId)
+            .HasForeignKey(f => f.OriginId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

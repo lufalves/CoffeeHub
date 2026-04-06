@@ -1,3 +1,4 @@
+using CoffeeHub.Application.Common;
 using CoffeeHub.Application.Interfaces;
 using CoffeeHub.Domain.User;
 using CoffeeHub.Infrastructure.Persistence;
@@ -11,23 +12,41 @@ public class UserRepository(CoffeeHubDbContext dbContext) : IUserRepository
     {
         return await dbContext.Users
             .AsNoTracking()
-            .Where(user => !user.IsDeleted)
             .OrderBy(user => user.Name)
             .ToListAsync(cancellationToken);
+    }
+
+    public async Task<PagedResult<User>> GetPagedAsync(int page, int pageSize, CancellationToken cancellationToken = default)
+    {
+        var totalCount = await dbContext.Users.CountAsync(cancellationToken);
+        var items = await dbContext.Users
+            .AsNoTracking()
+            .OrderBy(u => u.Name)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
+
+        return new PagedResult<User>
+        {
+            Items = items,
+            Page = page,
+            PageSize = pageSize,
+            TotalCount = totalCount
+        };
     }
 
     public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await dbContext.Users
             .AsNoTracking()
-            .FirstOrDefaultAsync(user => user.Id == id && !user.IsDeleted, cancellationToken);
+            .FirstOrDefaultAsync(user => user.Id == id, cancellationToken);
     }
 
     public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
         return await dbContext.Users
             .AsNoTracking()
-            .FirstOrDefaultAsync(user => user.Email == email && !user.IsDeleted, cancellationToken);
+            .FirstOrDefaultAsync(user => user.Email == email, cancellationToken);
     }
 
     public async Task AddAsync(User user, CancellationToken cancellationToken = default)
@@ -55,7 +74,9 @@ public class UserRepository(CoffeeHubDbContext dbContext) : IUserRepository
 
     public async Task SoftDeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var user = await dbContext.Users.FirstOrDefaultAsync(item => item.Id == id, cancellationToken);
+        var user = await dbContext.Users
+            .IgnoreQueryFilters()
+            .FirstOrDefaultAsync(item => item.Id == id, cancellationToken);
 
         if (user is null || user.IsDeleted)
         {
@@ -67,5 +88,10 @@ public class UserRepository(CoffeeHubDbContext dbContext) : IUserRepository
         user.UpdatedAt = user.DeletedAt.Value;
 
         await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default)
+    {
+        return await dbContext.Users.CountAsync(cancellationToken);
     }
 }

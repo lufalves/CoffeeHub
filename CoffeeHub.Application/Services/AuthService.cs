@@ -1,33 +1,36 @@
+using CoffeeHub.Application.Common;
 using CoffeeHub.Application.Interfaces;
 using CoffeeHub.Domain.User;
+using Microsoft.Extensions.Logging;
 
 namespace CoffeeHub.Application.Services;
 
-public class AuthService(IUserRepository userRepository, IPasswordHashService passwordHashService) : IAuthService
+public class AuthService(IUserRepository userRepository, IPasswordHashService passwordHashService, ILogger<AuthService> logger) : IAuthService
 {
     public async Task<User> RegisterAsync(string name, string email, string password, string? avatarUrl = null, CancellationToken cancellationToken = default)
     {
         ValidateRegistration(name, email, password, avatarUrl);
 
-        var normalizedEmail = email.Trim().ToLowerInvariant();
+        var normalizedEmail = EntityValidator.NormalizeEmail(email);
         var existingUser = await userRepository.GetByEmailAsync(normalizedEmail, cancellationToken);
 
         if (existingUser is not null)
         {
+            logger.LogWarning("Attempted registration with duplicate email: {Email}", email);
             throw new InvalidOperationException("A user with this email already exists.");
         }
 
         var user = new User
         {
-            Name = name.Trim(),
+            Name = EntityValidator.NormalizeName(name),
             Email = normalizedEmail,
-            AvatarUrl = string.IsNullOrWhiteSpace(avatarUrl) ? null : avatarUrl.Trim()
+            AvatarUrl = EntityValidator.NormalizeOptionalString(avatarUrl)
         };
 
         user.PasswordHash = passwordHashService.HashPassword(user, password);
 
         await userRepository.AddAsync(user, cancellationToken);
-
+        logger.LogInformation("User registered: {UserId} - {Email}", user.Id, user.Email);
         return user;
     }
 
@@ -43,54 +46,38 @@ public class AuthService(IUserRepository userRepository, IPasswordHashService pa
             throw new ArgumentException("Password must be informed.", nameof(password));
         }
 
-        var normalizedEmail = email.Trim().ToLowerInvariant();
+        var normalizedEmail = EntityValidator.NormalizeEmail(email);
         var user = await userRepository.GetByEmailAsync(normalizedEmail, cancellationToken);
 
         if (user is null)
         {
+            logger.LogWarning("Login attempt with non-existent email: {Email}", email);
             return null;
         }
 
         var passwordIsValid = passwordHashService.VerifyHashedPassword(user, user.PasswordHash, password);
 
-        return passwordIsValid ? user : null;
+        if (!passwordIsValid)
+        {
+            logger.LogWarning("Invalid password for user: {Email}", email);
+            return null;
+        }
+
+        return user;
     }
 
     private static void ValidateRegistration(string name, string email, string password, string? avatarUrl)
     {
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            throw new ArgumentException("Name must be informed.", nameof(name));
-        }
-
-        if (name.Length > 150)
-        {
-            throw new ArgumentException("Name cannot exceed 150 characters.", nameof(name));
-        }
-
-        if (string.IsNullOrWhiteSpace(email))
-        {
-            throw new ArgumentException("Email must be informed.", nameof(email));
-        }
-
-        if (email.Length > 320)
-        {
-            throw new ArgumentException("Email cannot exceed 320 characters.", nameof(email));
-        }
-
-        if (string.IsNullOrWhiteSpace(password))
-        {
-            throw new ArgumentException("Password must be informed.", nameof(password));
-        }
-
+        EntityValidator.ThrowIfNullOrWhiteSpace(name, nameof(name), "Name");
+        EntityValidator.ThrowIfExceedsLength(name, 150, nameof(name), "Name");
+        EntityValidator.ThrowIfNullOrWhiteSpace(email, nameof(email), "Email");
+        EntityValidator.ThrowIfExceedsLength(email, 320, nameof(email), "Email");
+        EntityValidator.ThrowIfNullOrWhiteSpace(password, nameof(password), "Password");
         if (password.Length < 6)
         {
             throw new ArgumentException("Password must contain at least 6 characters.", nameof(password));
         }
 
-        if (avatarUrl?.Length > 500)
-        {
-            throw new ArgumentException("Avatar URL cannot exceed 500 characters.", nameof(avatarUrl));
-        }
+        EntityValidator.ThrowIfExceedsLength(avatarUrl, 500, nameof(avatarUrl), "Avatar URL");
     }
 }

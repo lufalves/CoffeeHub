@@ -35,14 +35,14 @@ public class RecipeConfiguration : IEntityTypeConfiguration<Recipe>
             .HasForeignKey(recipe => recipe.UserId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne<Coffee>()
+        builder.HasOne(r => r.Coffee)
             .WithMany()
-            .HasForeignKey(recipe => recipe.CoffeeId)
+            .HasForeignKey(r => r.CoffeeId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne<BrewingMethod>()
+        builder.HasOne(r => r.BrewingMethod)
             .WithMany()
-            .HasForeignKey(recipe => recipe.BrewingMethodId)
+            .HasForeignKey(r => r.BrewingMethodId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

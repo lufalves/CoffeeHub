@@ -1,8 +1,7 @@
 namespace CoffeeHub.Domain.CoffeeShop;
 
-public class CoffeeShop
+public class CoffeeShop : CoffeeHub.Domain.Common.EntityBase
 {
-    public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string? Description { get; set; }
     public string? WebsiteUrl { get; set; }
@@ -11,8 +10,4 @@ public class CoffeeShop
     public string? City { get; set; }
     public string? State { get; set; }
     public string? Country { get; set; }
-    public DateTimeOffset CreatedAt { get; set; }
-    public DateTimeOffset UpdatedAt { get; set; }
-    public bool IsDeleted { get; set; }
-    public DateTimeOffset? DeletedAt { get; set; }
 }

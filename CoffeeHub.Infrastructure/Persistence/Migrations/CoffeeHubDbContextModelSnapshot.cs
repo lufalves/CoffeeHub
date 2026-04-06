@@ -504,6 +504,11 @@ namespace CoffeeHub.Infrastructure.Persistence.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -517,50 +522,62 @@ namespace CoffeeHub.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("CoffeeHub.Domain.Coffee.Coffee", b =>
                 {
-                    b.HasOne("CoffeeHub.Domain.BeanVariety.BeanVariety", null)
+                    b.HasOne("CoffeeHub.Domain.BeanVariety.BeanVariety", "BeanVariety")
                         .WithMany()
                         .HasForeignKey("BeanVarietyId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("CoffeeHub.Domain.Farm.Farm", null)
+                    b.HasOne("CoffeeHub.Domain.Farm.Farm", "Farm")
                         .WithMany()
                         .HasForeignKey("FarmId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("CoffeeHub.Domain.Origin.Origin", null)
+                    b.HasOne("CoffeeHub.Domain.Origin.Origin", "Origin")
                         .WithMany()
                         .HasForeignKey("OriginId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("CoffeeHub.Domain.RoastLevel.RoastLevel", null)
+                    b.HasOne("CoffeeHub.Domain.RoastLevel.RoastLevel", "RoastLevel")
                         .WithMany()
                         .HasForeignKey("RoastLevelId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("CoffeeHub.Domain.Roastery.Roastery", null)
+                    b.HasOne("CoffeeHub.Domain.Roastery.Roastery", "Roastery")
                         .WithMany()
                         .HasForeignKey("RoasteryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("BeanVariety");
+
+                    b.Navigation("Farm");
+
+                    b.Navigation("Origin");
+
+                    b.Navigation("RoastLevel");
+
+                    b.Navigation("Roastery");
                 });
 
             modelBuilder.Entity("CoffeeHub.Domain.Farm.Farm", b =>
                 {
-                    b.HasOne("CoffeeHub.Domain.Origin.Origin", null)
+                    b.HasOne("CoffeeHub.Domain.Origin.Origin", "Origin")
                         .WithMany()
                         .HasForeignKey("OriginId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Origin");
                 });
 
             modelBuilder.Entity("CoffeeHub.Domain.Recipe.Recipe", b =>
                 {
-                    b.HasOne("CoffeeHub.Domain.BrewingMethod.BrewingMethod", null)
+                    b.HasOne("CoffeeHub.Domain.BrewingMethod.BrewingMethod", "BrewingMethod")
                         .WithMany()
                         .HasForeignKey("BrewingMethodId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("CoffeeHub.Domain.Coffee.Coffee", null)
+                    b.HasOne("CoffeeHub.Domain.Coffee.Coffee", "Coffee")
                         .WithMany()
                         .HasForeignKey("CoffeeId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -571,11 +588,15 @@ namespace CoffeeHub.Infrastructure.Persistence.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("BrewingMethod");
+
+                    b.Navigation("Coffee");
                 });
 
             modelBuilder.Entity("CoffeeHub.Domain.Review.Review", b =>
                 {
-                    b.HasOne("CoffeeHub.Domain.Coffee.Coffee", null)
+                    b.HasOne("CoffeeHub.Domain.Coffee.Coffee", "Coffee")
                         .WithMany()
                         .HasForeignKey("CoffeeId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -586,6 +607,8 @@ namespace CoffeeHub.Infrastructure.Persistence.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Coffee");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,8 +1,10 @@
+using CoffeeEntity = CoffeeHub.Domain.Coffee.Coffee;
+using BrewingMethodEntity = CoffeeHub.Domain.BrewingMethod.BrewingMethod;
+
 namespace CoffeeHub.Domain.Recipe;
 
-public class Recipe
+public class Recipe : CoffeeHub.Domain.Common.EntityBase
 {
-    public Guid Id { get; set; }
     public Guid UserId { get; set; }
     public Guid CoffeeId { get; set; }
     public Guid BrewingMethodId { get; set; }
@@ -12,8 +14,7 @@ public class Recipe
     public decimal? WaterAmountInMilliliters { get; set; }
     public int? BrewTimeInSeconds { get; set; }
     public string? Instructions { get; set; }
-    public DateTimeOffset CreatedAt { get; set; }
-    public DateTimeOffset UpdatedAt { get; set; }
-    public bool IsDeleted { get; set; }
-    public DateTimeOffset? DeletedAt { get; set; }
+
+    public CoffeeEntity? Coffee { get; set; }
+    public BrewingMethodEntity? BrewingMethod { get; set; }
 }

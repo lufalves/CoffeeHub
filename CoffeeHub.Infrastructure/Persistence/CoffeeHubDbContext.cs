@@ -30,6 +30,19 @@ public class CoffeeHubDbContext(DbContextOptions<CoffeeHubDbContext> options) : 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(CoffeeHubDbContext).Assembly);
+
+        modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDeleted);
+        modelBuilder.Entity<Coffee>().HasQueryFilter(c => !c.IsDeleted);
+        modelBuilder.Entity<Recipe>().HasQueryFilter(r => !r.IsDeleted);
+        modelBuilder.Entity<Review>().HasQueryFilter(r => !r.IsDeleted);
+        modelBuilder.Entity<Roastery>().HasQueryFilter(r => !r.IsDeleted);
+        modelBuilder.Entity<Origin>().HasQueryFilter(o => !o.IsDeleted);
+        modelBuilder.Entity<Farm>().HasQueryFilter(f => !f.IsDeleted);
+        modelBuilder.Entity<BeanVariety>().HasQueryFilter(b => !b.IsDeleted);
+        modelBuilder.Entity<RoastLevel>().HasQueryFilter(r => !r.IsDeleted);
+        modelBuilder.Entity<BrewingMethod>().HasQueryFilter(b => !b.IsDeleted);
+        modelBuilder.Entity<CoffeeShop>().HasQueryFilter(c => !c.IsDeleted);
+
         base.OnModelCreating(modelBuilder);
     }
 }

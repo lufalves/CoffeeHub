@@ -27,29 +27,29 @@ public class CoffeeConfiguration : IEntityTypeConfiguration<Coffee>
         builder.Property(coffee => coffee.Description)
             .HasMaxLength(2000);
 
-        builder.HasOne<Roastery>()
+        builder.HasOne(c => c.Roastery)
             .WithMany()
-            .HasForeignKey(coffee => coffee.RoasteryId)
+            .HasForeignKey(c => c.RoasteryId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne<Origin>()
+        builder.HasOne(c => c.Origin)
             .WithMany()
-            .HasForeignKey(coffee => coffee.OriginId)
+            .HasForeignKey(c => c.OriginId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne<Farm>()
+        builder.HasOne(c => c.Farm)
             .WithMany()
-            .HasForeignKey(coffee => coffee.FarmId)
+            .HasForeignKey(c => c.FarmId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne<BeanVariety>()
+        builder.HasOne(c => c.BeanVariety)
             .WithMany()
-            .HasForeignKey(coffee => coffee.BeanVarietyId)
+            .HasForeignKey(c => c.BeanVarietyId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne<RoastLevel>()
+        builder.HasOne(c => c.RoastLevel)
             .WithMany()
-            .HasForeignKey(coffee => coffee.RoastLevelId)
+            .HasForeignKey(c => c.RoastLevelId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasIndex(coffee => coffee.Barcode)

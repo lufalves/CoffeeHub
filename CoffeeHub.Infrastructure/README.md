@@ -8,18 +8,40 @@ This project contains the infrastructure layer of CoffeeHub.
 
 Its main focus currently is:
 
-- EF Core
-- PostgreSQL
+- EF Core with PostgreSQL
 - repository implementations
 - password hashing
 - dependency injection registration
+- database migrations and configurations
 
 ## Current Structure
 
-- `Persistence`: `DbContext`, design-time factory, EF Core mappings, migrations
-- `Repositories`: implementations of application repository interfaces
-- `Services`: infrastructure services such as password hashing
-- `DependencyInjection.cs`: registration helpers for DI
+| Folder | Contents |
+|---|---|
+| `Persistence/` | `CoffeeHubDbContext`, EF Core configurations, migrations |
+| `Persistence/Configurations/` | Entity-specific EF Core configurations with indexes and constraints |
+| `Persistence/Migrations/` | EF Core migration files |
+| `Repositories/` | Implementations of application repository interfaces |
+| `Services/` | Infrastructure services (password hashing via ASP.NET Core PasswordHasher) |
+| `Common/` | `CrudRepositoryBase` generic base class |
+| `Data/` | Seed data for reference tables |
+| `DependencyInjection.cs` | Service registration helpers for DI container |
+
+## Repositories
+
+| Repository | Entity |
+|---|---|
+| `UserRepository` | User |
+| `CoffeeRepository` | Coffee (with eager loading for 5 navigation properties) |
+| `RecipeRepository` | Recipe |
+| `ReviewRepository` | Review |
+| `RoasteryRepository` | Roastery |
+| `OriginRepository` | Origin |
+| `FarmRepository` | Farm |
+| `BeanVarietyRepository` | BeanVariety |
+| `RoastLevelRepository` | RoastLevel |
+| `BrewingMethodRepository` | BrewingMethod |
+| `CoffeeShopRepository` | CoffeeShop |
 
 ## What Belongs Here
 
@@ -30,6 +52,7 @@ Its main focus currently is:
 - provider-specific persistence code
 - hashing implementation
 - infrastructure registrations
+- seed data
 
 ## What Should Not Be Here
 
@@ -41,8 +64,11 @@ Its main focus currently is:
 ## Current Notes
 
 - PostgreSQL is the current database provider
-- EF Core migrations are already in use
+- EF Core migrations are in use
 - `Coffee.Barcode` is enforced as a unique database index
+- Eager loading configured for Coffee (Roastery, Origin, BeanVariety, RoastLevel, Farm)
+- Soft delete filter applied globally via EF Core query filters
+- Indexes on frequently queried fields
 
 ## Dependency Rule
 

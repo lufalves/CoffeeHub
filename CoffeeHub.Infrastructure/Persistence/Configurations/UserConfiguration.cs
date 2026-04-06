@@ -26,6 +26,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(user => user.AvatarUrl)
             .HasMaxLength(500);
 
+        builder.Property(user => user.Role)
+            .HasMaxLength(50)
+            .IsRequired();
+
         builder.HasIndex(user => user.Email)
             .IsUnique();
     }

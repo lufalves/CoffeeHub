@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CoffeeHub.Domain\CoffeeHub.Domain.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
   </ItemGroup>
 
 </Project>

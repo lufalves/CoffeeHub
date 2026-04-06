@@ -10,8 +10,38 @@ This is the layer between the entry points (`Api`, `Web`) and persistence (`Infr
 
 ## Current Structure
 
-- `Interfaces`: contracts used by the application layer
-- `Services`: application services that implement use cases and validations
+| Folder | Contents |
+|---|---|
+| `Abstractions/` | Base classes and shared patterns (e.g., `CrudServiceBase`) |
+| `Common/` | Shared utilities (`EntityValidator`, `PagedResult`) |
+| `Interfaces/` | Service and repository contracts |
+| `Services/` | Application service implementations |
+
+## Services
+
+| Service | Responsibility |
+|---|---|
+| `AuthService` | User registration, login validation, password hashing, brute-force protection, profile updates |
+| `UserService` | User CRUD operations, email uniqueness validation |
+| `CoffeeService` | Coffee CRUD operations, barcode uniqueness validation, paginated listing with eager loading |
+| `RecipeService` | Recipe read operations (create/edit/delete pending) |
+| `ReviewService` | Review read operations (create/edit/delete pending) |
+| `RoasteryService` | Roastery CRUD operations |
+| `OriginService` | Origin CRUD operations |
+| `FarmService` | Farm CRUD operations |
+| `BeanVarietyService` | Bean variety CRUD operations |
+| `RoastLevelService` | Roast level CRUD operations |
+| `BrewingMethodService` | Brewing method CRUD operations |
+
+## Common Abstractions
+
+| Type | Purpose |
+|---|---|
+| `CrudServiceBase<T>` | Generic base class for CRUD services |
+| `EntityValidator` | Validates entity existence and required fields |
+| `PagedResult<T>` | Paginated result wrapper with total count |
+| `ICrudRepository<T>` | Generic CRUD repository contract |
+| `ICrudService<T>` | Generic CRUD service contract |
 
 ## What Belongs Here
 
@@ -21,6 +51,7 @@ This is the layer between the entry points (`Api`, `Web`) and persistence (`Infr
 - application services
 - validation and orchestration logic
 - use case coordination
+- pagination and filtering abstractions
 
 ## What Should Not Be Here
 
@@ -30,24 +61,17 @@ This is the layer between the entry points (`Api`, `Web`) and persistence (`Infr
 - Razor Pages code
 - direct infrastructure implementations
 
-## Current Services
-
-Current application services include:
-
-- `UserService`
-- `CoffeeService`
-- `AuthService`
-
 ## Current Responsibilities
 
 This layer currently handles rules such as:
 
-- user validation
-- coffee validation
-- duplicate email checks
-- duplicate coffee barcode checks
-- registration flow
+- user validation and duplicate email checks
+- coffee validation and duplicate barcode checks
+- registration flow with automatic Admin role for first user
 - credential validation before login
+- brute-force login protection (5 attempts, 15-min lockout)
+- paginated queries with eager loading for navigation properties
+- profile updates (name, email, avatar, password change)
 
 ## Intended Flow
 
