@@ -8,6 +8,24 @@ This project contains the Razor Pages web application of CoffeeHub.
 
 It should focus on presentation and user interaction, not on infrastructure or business orchestration.
 
+## Current Structure
+
+| Folder | Contents |
+|---|---|
+| `Pages/` | Razor Pages organized by feature |
+| `Pages/Account/` | Login, Register, Logout, Profile management |
+| `Pages/Home/` | Authenticated home page with paginated coffee feed |
+| `Pages/Coffees/` | Coffee CRUD pages (create, edit, details, delete) |
+| `Pages/Recipes/` | Recipe CRUD pages |
+| `Pages/Reviews/` | Review CRUD pages |
+| `Pages/Roasteries/` | Roastery listing and detail pages |
+| `Pages/Origins/` | Origin listing and detail pages |
+| `Pages/Shared/` | Layout, partials, language switcher |
+| `Controllers/` | MVC controllers (CultureController for i18n) |
+| `Resources/` | Localization resources (.resx files for EN and PT-BR) |
+| `Security/` | Cookie authentication configuration |
+| `wwwroot/` | Static assets (CSS, JS, images) |
+
 ## What Belongs Here
 
 - Razor Pages
@@ -16,6 +34,8 @@ It should focus on presentation and user interaction, not on infrastructure or b
 - form handling
 - cookie authentication
 - presentation concerns
+- localization resources
+- static assets
 
 ## What Should Not Be Here
 
@@ -36,14 +56,37 @@ For authentication:
 
 ## Current Features
 
-The web project already contains:
+### Authentication & Authorization
+- Login page with brute-force protection display
+- Registration page with automatic Admin role for first user
+- Logout flow
+- Cookie-based authentication
+- Profile page with user role badge, avatar, name, email, and password change
 
-- login page
-- registration page
-- logout flow
-- cookie-based authentication
-- authenticated home page
-- a basic coffee catalog feed on the home page
+### Coffee Management
+- Paginated home page with rich coffee information (roastery name, origin country)
+- Coffee create page with dropdowns for reference data
+- Coffee edit page
+- Coffee details page
+- Coffee delete with confirmation
+
+### Reference Data
+- Roastery listing and detail pages
+- Origin listing and detail pages
+
+### Recipes & Reviews
+- Recipe listing and detail pages
+- Review listing and detail pages
+
+### Internationalization (i18n)
+- English and Portuguese (PT-BR) support
+- Language switcher in navbar
+- Cookie-based culture persistence
+- `CultureController` for switching languages
+
+### Error Handling
+- Global error page (`/Error`)
+- 404 Not Found page (`/NotFound`)
 
 ## Why Razor Pages
 
@@ -56,9 +99,9 @@ Razor Pages is a good fit for this project because:
 ## Current Notes
 
 - `/` redirects to login
-- `/Home` requires authentication
-- the current home page lists coffees in a general catalog-style feed
-- richer feed logic such as recommendations and rankings can be added later
+- `/Home` requires authentication and shows paginated coffee feed
+- Reference data dropdowns are populated on create/edit forms
+- Richer feed logic such as recommendations and ranking can be added later
 
 ## Goal
 

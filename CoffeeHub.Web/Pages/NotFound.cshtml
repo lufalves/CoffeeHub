@@ -1,0 +1,15 @@
+@page
+@model CoffeeHub.Web.Pages.NotFoundModel
+@{
+    ViewData["Title"] = "Not found";
+}
+
+<section class="error-shell">
+    <span class="home-card-label">404</span>
+    <h1>Page not found</h1>
+    <p>The page you requested does not exist or is no longer available.</p>
+    <div class="coffee-form-actions">
+        <a class="coffeehub-nav-button" asp-page="/Home/Index">Go home</a>
+        <a class="coffee-link-button" asp-page="/Coffees/Index">Browse coffees</a>
+    </div>
+</section>

@@ -26,7 +26,10 @@
         <span class="home-card-label">Catalog</span>
         <h2>All coffees</h2>
     </div>
-    <p>Current list ordered by name. This is the base feed before ranking and recommendation layers.</p>
+    <div class="home-section-actions">
+        <p>Current list ordered by name. This is the base feed before ranking and recommendation layers.</p>
+        <a class="coffeehub-nav-button" asp-page="/Coffees/Index">Manage coffees</a>
+    </div>
 </section>
 
 @if (Model.Coffees.Count == 0)
@@ -68,15 +71,15 @@ else
                     </div>
                     <div>
                         <dt>Roastery</dt>
-                        <dd>@coffee.RoasteryId</dd>
+                        <dd>@(coffee.Roastery?.Name ?? "Not informed")</dd>
                     </div>
                     <div>
                         <dt>Origin</dt>
-                        <dd>@(coffee.OriginId?.ToString() ?? "Not informed")</dd>
+                        <dd>@(coffee.Origin?.Region ?? "Not informed")</dd>
                     </div>
                     <div>
                         <dt>Roast level</dt>
-                        <dd>@(coffee.RoastLevelId?.ToString() ?? "Not informed")</dd>
+                        <dd>@(coffee.RoastLevel?.Name ?? "Not informed")</dd>
                     </div>
                 </dl>
             </article>

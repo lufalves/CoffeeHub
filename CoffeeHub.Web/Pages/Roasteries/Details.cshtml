@@ -1,0 +1,115 @@
+@page "{id:guid}"
+@model CoffeeHub.Web.Pages.Roasteries.DetailsModel
+@{
+    ViewData["Title"] = "Roastery details";
+    var roastery = Model.Roastery!;
+    var breadcrumbs = new[]
+    {
+        ("Home", "/Home/Index"),
+        ("Roasteries", "/Roasteries/Index"),
+        (roastery.Name, null)
+    };
+}
+
+<partial name="_Breadcrumb" model="breadcrumbs" />
+
+<section class="coffee-page-header">
+    <div>
+        <span class="home-card-label">Reference data</span>
+        <h1>@roastery.Name</h1>
+        <p>@(string.IsNullOrWhiteSpace(roastery.Description) ? "No description provided." : roastery.Description)</p>
+    </div>
+    <div class="coffee-page-actions">
+        <a class="coffee-link-button" asp-page="/Roasteries/Index">Back to roasteries</a>
+    </div>
+</section>
+
+<section class="coffee-card-shell mb-4">
+    <dl class="coffee-details-grid">
+        <div class="coffee-details-row">
+            <dt>Website</dt>
+            <dd>
+                @if (string.IsNullOrWhiteSpace(roastery.WebsiteUrl))
+                {
+                    <span>-</span>
+                }
+                else
+                {
+                    <a href="@roastery.WebsiteUrl" target="_blank" rel="noopener noreferrer">@roastery.WebsiteUrl</a>
+                }
+            </dd>
+        </div>
+        <div class="coffee-details-row">
+            <dt>Instagram</dt>
+            <dd>@(string.IsNullOrWhiteSpace(roastery.InstagramUrl) ? "-" : roastery.InstagramUrl)</dd>
+        </div>
+    </dl>
+</section>
+
+<section class="coffee-page-header">
+    <div>
+        <span class="home-card-label">Catalog</span>
+        <h2>Coffees from this roastery</h2>
+    </div>
+</section>
+
+@if (Model.PagedCoffees.Items.Count == 0)
+{
+    <section class="coffee-empty">
+        <h3>No coffees linked to this roastery yet.</h3>
+    </section>
+}
+else
+{
+    <section class="coffee-table-shell">
+        <table class="coffee-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Barcode</th>
+                    <th>Origin</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var coffee in Model.PagedCoffees.Items)
+                {
+                    <tr>
+                        <td>@coffee.Name</td>
+                        <td>@coffee.Barcode</td>
+                        <td>@(coffee.Origin?.Country ?? "Not informed")</td>
+                        <td>
+                            <a class="coffee-link-button" asp-page="/Coffees/Details" asp-route-id="@coffee.Id">Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+
+    @if (Model.PagedCoffees.TotalPages > 1)
+    {
+        <nav class="mt-4">
+            <ul class="pagination justify-content-center">
+                @if (Model.PagedCoffees.HasPreviousPage)
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-page="/Roasteries/Details" asp-route-id="@roastery.Id" asp-route-page="@(Model.PagedCoffees.Page - 1)">Previous</a>
+                    </li>
+                }
+                @for (var coffeePg = 1; coffeePg <= Model.PagedCoffees.TotalPages; coffeePg++)
+                {
+                    <li class="page-item @(coffeePg == Model.PagedCoffees.Page ? "active" : string.Empty)">
+                        <a class="page-link" asp-page="/Roasteries/Details" asp-route-id="@roastery.Id" asp-route-page="@coffeePg">@coffeePg</a>
+                    </li>
+                }
+                @if (Model.PagedCoffees.HasNextPage)
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-page="/Roasteries/Details" asp-route-id="@roastery.Id" asp-route-page="@(Model.PagedCoffees.Page + 1)">Next</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+}

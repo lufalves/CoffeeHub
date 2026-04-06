@@ -1,5 +1,9 @@
+@{
+    var statusToast = TempData.Peek("StatusMessage") as string;
+    var errorToast = TempData.Peek("ErrorMessage") as string;
+}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="@System.Globalization.CultureInfo.CurrentCulture.Name">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,6 +14,8 @@
     <link rel="stylesheet" href="~/CoffeeHub.styles.css" asp-append-version="true" />
 </head>
 <body class="coffeehub-body">
+    @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+    @Html.AntiForgeryToken()
     <header>
         <nav class="navbar navbar-expand-sm coffeehub-nav">
             <div class="container coffeehub-nav-shell">
@@ -21,21 +27,45 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link coffeehub-nav-link" asp-area="" asp-page="/Home/Index">Home</a>
+                            <a class="nav-link coffeehub-nav-link" asp-area="" asp-page="/Home/Index">@S["Home"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link coffeehub-nav-link" asp-area="" asp-page="/Coffees/Index">@S["Coffees"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link coffeehub-nav-link" asp-area="" asp-page="/Recipes/Index">@S["Recipes"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link coffeehub-nav-link" asp-area="" asp-page="/Reviews/Index">@S["Reviews"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link coffeehub-nav-link" asp-area="" asp-page="/Roasteries/Index">@S["Roasteries"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link coffeehub-nav-link" asp-area="" asp-page="/Origins/Index">@S["Origins"]</a>
                         </li>
                     </ul>
                     <div class="coffeehub-nav-actions">
+                        <partial name="_LanguageSwitcher" />
                         @if (User.Identity?.IsAuthenticated == true)
                         {
-                            <span class="coffeehub-user-badge">@User.Identity.Name</span>
+                            <div class="coffeehub-user-menu">
+                                <a class="coffeehub-user-badge" asp-page="/Profile/Index">@User.Identity.Name</a>
+                                <div class="coffeehub-user-dropdown">
+                                    <a asp-page="/Profile/Index" asp-route-section="profile">@S["Profile"]</a>
+                                    <a asp-page="/Recipes/Index">@S["Recipes"]</a>
+                                    <a asp-page="/Reviews/Index">@S["Reviews"]</a>
+                                </div>
+                            </div>
                             <form method="post" asp-page="/Account/Logout">
-                                <button type="submit" class="coffeehub-nav-button">Logout</button>
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="coffeehub-nav-button">@S["Logout"]</button>
                             </form>
                         }
                         else
                         {
-                            <a class="coffeehub-nav-link" asp-area="" asp-page="/Account/Login">Login</a>
-                            <a class="coffeehub-nav-button" asp-area="" asp-page="/Account/Register">Register</a>
+                            <a class="coffeehub-nav-link" asp-area="" asp-page="/Account/Login">@S["Login"]</a>
+                            <a class="coffeehub-nav-button" asp-area="" asp-page="/Account/Register">@S["Register"]</a>
                         }
                     </div>
                 </div>
@@ -50,9 +80,41 @@
 
     <footer class="footer coffeehub-footer">
         <div class="container">
-            &copy; 2026 - CoffeeHub - A coffee platform for cataloging, reviewing, and brewing.
+            &copy; 2026 - CoffeeHub - @S["Copyright"]
         </div>
     </footer>
+
+    @if (!string.IsNullOrWhiteSpace(statusToast) || !string.IsNullOrWhiteSpace(errorToast))
+    {
+        <div class="toast-container position-fixed bottom-0 end-0 p-3 coffee-toast-container">
+            @if (!string.IsNullOrWhiteSpace(statusToast))
+            {
+                <div class="toast align-items-center border-0 coffee-toast coffee-toast-success" role="status" aria-live="polite" aria-atomic="true" data-autoshow="true">
+                    <div class="d-flex">
+                        <div class="toast-body">@statusToast</div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            }
+            @if (!string.IsNullOrWhiteSpace(errorToast))
+            {
+                <div class="toast align-items-center border-0 coffee-toast coffee-toast-error" role="alert" aria-live="assertive" aria-atomic="true" data-autoshow="true">
+                    <div class="d-flex">
+                        <div class="toast-body">@errorToast</div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <div id="session-timeout-warning" class="session-timeout-warning" style="display: none;">
+        <p>@S["SessionTimeout"]</p>
+        <button type="button">@S["StaySignedIn"]</button>
+    </div>
+}
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

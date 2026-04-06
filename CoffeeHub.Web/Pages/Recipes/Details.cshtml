@@ -1,0 +1,72 @@
+@page "{id:guid}"
+@model CoffeeHub.Web.Pages.Recipes.DetailsModel
+@{
+    ViewData["Title"] = "Recipe details";
+    var recipe = Model.Recipe!;
+    var breadcrumbs = new[]
+    {
+        ("Home", "/Home/Index"),
+        ("Recipes", "/Recipes/Index"),
+        (recipe.Title, null)
+    };
+}
+
+<partial name="_Breadcrumb" model="breadcrumbs" />
+
+<section class="coffee-page-header">
+    <div>
+        <span class="home-card-label">Recipe library</span>
+        <h1>@recipe.Title</h1>
+        <p>Review the complete recipe and brewing parameters.</p>
+    </div>
+    <div class="coffee-page-actions">
+        <a class="coffee-link-button" asp-page="/Recipes/Index">Back to list</a>
+        <a class="coffeehub-nav-button" asp-page="/Recipes/Edit" asp-route-id="@recipe.Id">Edit recipe</a>
+    </div>
+</section>
+
+@if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
+{
+    <div class="coffee-status">@Model.StatusMessage</div>
+}
+
+<section class="coffee-card-shell">
+    <dl class="coffee-details-grid">
+        <div class="coffee-details-row">
+            <dt>Coffee</dt>
+            <dd>@(recipe.Coffee?.Name ?? recipe.CoffeeId.ToString())</dd>
+        </div>
+        <div class="coffee-details-row">
+            <dt>Brewing method</dt>
+            <dd>@(recipe.BrewingMethod?.Name ?? recipe.BrewingMethodId.ToString())</dd>
+        </div>
+        <div class="coffee-details-row">
+            <dt>Description</dt>
+            <dd>@(string.IsNullOrWhiteSpace(recipe.Description) ? "No description provided." : recipe.Description)</dd>
+        </div>
+        <div class="coffee-details-row">
+            <dt>Coffee amount</dt>
+            <dd>@(recipe.CoffeeAmountInGrams?.ToString("0.##") ?? "-") g</dd>
+        </div>
+        <div class="coffee-details-row">
+            <dt>Water amount</dt>
+            <dd>@(recipe.WaterAmountInMilliliters?.ToString("0.##") ?? "-") ml</dd>
+        </div>
+        <div class="coffee-details-row">
+            <dt>Brew time</dt>
+            <dd>@(recipe.BrewTimeInSeconds?.ToString() ?? "-") s</dd>
+        </div>
+        <div class="coffee-details-row">
+            <dt>Instructions</dt>
+            <dd>@(string.IsNullOrWhiteSpace(recipe.Instructions) ? "No instructions provided." : recipe.Instructions)</dd>
+        </div>
+        <div class="coffee-details-row">
+            <dt>Created at</dt>
+            <dd>@recipe.CreatedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm")</dd>
+        </div>
+    </dl>
+
+    <form method="post" asp-page-handler="Delete" asp-route-id="@recipe.Id" data-confirm-message="Are you sure you want to remove this recipe?">
+        <button type="submit" class="coffee-danger">Delete recipe</button>
+    </form>
+</section>

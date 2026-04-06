@@ -1,15 +1,13 @@
 using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
 using CoffeeHub.Application.Interfaces;
 using CoffeeHub.Domain.User;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using CoffeeHub.Web.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace CoffeeHub.Web.Pages.Account;
 
-public class LoginModel(IAuthService authService) : PageModel
+public class LoginModel(IAuthService authService, LoginAttemptTracker loginTracker) : PageModel
 {
     [BindProperty]
     public LoginInputModel Input { get; set; } = new();
@@ -31,6 +29,13 @@ public class LoginModel(IAuthService authService) : PageModel
             return Page();
         }
 
+        if (loginTracker.IsLockedOut(Input.Email))
+        {
+            var remaining = loginTracker.GetLockoutRemaining(Input.Email);
+            ModelState.AddModelError(string.Empty, $"Too many failed attempts. Try again in {remaining?.Minutes:N0} minutes.");
+            return Page();
+        }
+
         User? user;
 
         try
@@ -45,34 +50,15 @@ public class LoginModel(IAuthService authService) : PageModel
 
         if (user is null)
         {
+            loginTracker.RecordFailure(Input.Email);
             ModelState.AddModelError(string.Empty, "Invalid email or password.");
             return Page();
         }
 
-        await SignInUserAsync(user, Input.RememberMe);
+        loginTracker.RecordSuccess(Input.Email);
+        await AuthenticationCookieHelper.SignInUserAsync(HttpContext, user, Input.RememberMe, user.Role);
 
         return RedirectToPage("/Home/Index");
-    }
-
-    private async Task SignInUserAsync(User user, bool rememberMe)
-    {
-        var claims = new List<Claim>
-        {
-            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new(ClaimTypes.Name, user.Name),
-            new(ClaimTypes.Email, user.Email)
-        };
-
-        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        var principal = new ClaimsPrincipal(identity);
-
-        await HttpContext.SignInAsync(
-            CookieAuthenticationDefaults.AuthenticationScheme,
-            principal,
-            new AuthenticationProperties
-            {
-                IsPersistent = rememberMe
-            });
     }
 
     public class LoginInputModel
@@ -86,5 +72,14 @@ public class LoginModel(IAuthService authService) : PageModel
         public string Password { get; set; } = string.Empty;
 
         public bool RememberMe { get; set; }
+    }
+
+    // Handler for extending session via AJAX
+    [IgnoreAntiforgeryToken] // For AJAX calls, we'll handle validation differently
+    public IActionResult OnPostExtendSession()
+    {
+        // This endpoint just needs to be hit to reset the session sliding expiration
+        // The cookie middleware will automatically reset the expiration on any authenticated request
+        return new JsonResult(new { success = true });
     }
 }

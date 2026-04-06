@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Coffees" xml:space="preserve">
+    <value>Coffees</value>
+  </data>
+  <data name="Recipes" xml:space="preserve">
+    <value>Recipes</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>Reviews</value>
+  </data>
+  <data name="Roasteries" xml:space="preserve">
+    <value>Roasteries</value>
+  </data>
+  <data name="Origins" xml:space="preserve">
+    <value>Origins</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="BackToList" xml:space="preserve">
+    <value>Back to List</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>Are you sure you want to delete this item?</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Portuguese" xml:space="preserve">
+    <value>Portuguese</value>
+  </data>
+  <data name="Copyright" xml:space="preserve">
+    <value>A coffee platform for cataloging, reviewing, and brewing.</value>
+  </data>
+  <data name="SessionTimeout" xml:space="preserve">
+    <value>Your session is about to expire due to inactivity.</value>
+  </data>
+  <data name="StaySignedIn" xml:space="preserve">
+    <value>Stay signed in</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirm password</value>
+  </data>
+  <data name="Coffee" xml:space="preserve">
+    <value>Coffee</value>
+  </data>
+  <data name="RoastLevel" xml:space="preserve">
+    <value>Roast level</value>
+  </data>
+  <data name="Origin" xml:space="preserve">
+    <value>Origin</value>
+  </data>
+  <data name="Roastery" xml:space="preserve">
+    <value>Roastery</value>
+  </data>
+  <data name="Barcode" xml:space="preserve">
+    <value>Barcode</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="NotInformed" xml:space="preserve">
+    <value>Not informed</value>
+  </data>
+  <data name="OpenDetails" xml:space="preserve">
+    <value>Open details</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="ManageCoffees" xml:space="preserve">
+    <value>Manage coffees</value>
+  </data>
+  <data name="NoCoffeesFound" xml:space="preserve">
+    <value>No coffees found</value>
+  </data>
+  <data name="NoCoffeesFoundDesc" xml:space="preserve">
+    <value>There are no coffees matching the current filters.</value>
+  </data>
+  <data name="NoDescription" xml:space="preserve">
+    <value>This coffee does not have a description yet.</value>
+  </data>
+  <data name="Catalog" xml:space="preserve">
+    <value>Catalog</value>
+  </data>
+  <data name="LatestCoffees" xml:space="preserve">
+    <value>Latest coffees</value>
+  </data>
+  <data name="SearchByNameOrBarcode" xml:space="preserve">
+    <value>Search by name or barcode</value>
+  </data>
+  <data name="SearchPlaceholder" xml:space="preserve">
+    <value>e.g. Ethiopia or 789123...</value>
+  </data>
+  <data name="TotalCoffees" xml:space="preserve">
+    <value>Total coffees</value>
+  </data>
+  <data name="TotalReviews" xml:space="preserve">
+    <value>Total reviews</value>
+  </data>
+  <data name="TotalUsers" xml:space="preserve">
+    <value>Total users</value>
+  </data>
+  <data name="CatalogEntries" xml:space="preserve">
+    <value>Catalog entries available now.</value>
+  </data>
+  <data name="PublishedRatings" xml:space="preserve">
+    <value>Published ratings and comments.</value>
+  </data>
+  <data name="RegisteredEnthusiasts" xml:space="preserve">
+    <value>Registered coffee enthusiasts.</value>
+  </data>
+  <data name="SignedInAs" xml:space="preserve">
+    <value>Signed in as</value>
+  </data>
+  <data name="CoffeeEntriesAvailable" xml:space="preserve">
+    <value>coffee entries available</value>
+  </data>
+  <data name="CoffeeEntryIs" xml:space="preserve">
+    <value>entry is</value>
+  </data>
+  <data name="CoffeeEntriesAre" xml:space="preserve">
+    <value>entries are</value>
+  </data>
+  <data name="CoffeeFeed" xml:space="preserve">
+    <value>Coffee feed</value>
+  </data>
+  <data name="DiscoverCoffees" xml:space="preserve">
+    <value>Discover coffees in a searchable feed inspired by tasting platforms.</value>
+  </data>
+  <data name="DiscoverLead" xml:space="preserve">
+    <value>Browse catalog entries with roastery and origin context, then jump directly to details, recipes, and reviews.</value>
+  </data>
+  <data name="UseSearchToFind" xml:space="preserve">
+    <value>Use search to find coffees by name or barcode, then open details for reviews and recipes.</value>
+  </data>
+  <data name="CoffeeCatalog" xml:space="preserve">
+    <value>Coffee Catalog</value>
+  </data>
+  <data name="MemberSince" xml:space="preserve">
+    <value>Member since</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="UserArea" xml:space="preserve">
+    <value>User area</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="DisplayName" xml:space="preserve">
+    <value>Display name</value>
+  </data>
+  <data name="AvatarSource" xml:space="preserve">
+    <value>Avatar source</value>
+  </data>
+  <data name="UserId" xml:space="preserve">
+    <value>User id</value>
+  </data>
+  <data name="CreatedAt" xml:space="preserve">
+    <value>Created at</value>
+  </data>
+  <data name="LastUpdated" xml:space="preserve">
+    <value>Last updated</value>
+  </data>
+  <data name="NoAvatarConfigured" xml:space="preserve">
+    <value>No avatar configured yet.</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="EditDetails" xml:space="preserve">
+    <value>Edit details</value>
+  </data>
+  <data name="UpdatePhoto" xml:space="preserve">
+    <value>Update photo</value>
+  </data>
+  <data name="UpdatePassword" xml:space="preserve">
+    <value>Update password</value>
+  </data>
+  <data name="MyCoffees" xml:space="preserve">
+    <value>My coffees</value>
+  </data>
+  <data name="MyRecipes" xml:space="preserve">
+    <value>My recipes</value>
+  </data>
+  <data name="MyReviews" xml:space="preserve">
+    <value>My reviews</value>
+  </data>
+  <data name="SaveDetails" xml:space="preserve">
+    <value>Save details</value>
+  </data>
+  <data name="AvatarUrl" xml:space="preserve">
+    <value>Avatar URL</value>
+  </data>
+  <data name="AvatarUrlPlaceholder" xml:space="preserve">
+    <value>https://...</value>
+  </data>
+  <data name="AvatarUrlHelp" xml:space="preserve">
+    <value>Leave the field empty and save if you want to remove the current photo.</value>
+  </data>
+  <data name="SavePhoto" xml:space="preserve">
+    <value>Save photo</value>
+  </data>
+  <data name="CurrentPassword" xml:space="preserve">
+    <value>Current password</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>New password</value>
+  </data>
+  <data name="SavePassword" xml:space="preserve">
+    <value>Save password</value>
+  </data>
+  <data name="NoCoffeesRegistered" xml:space="preserve">
+    <value>No coffees registered yet.</value>
+  </data>
+  <data name="NoCoffeesRegisteredDesc" xml:space="preserve">
+    <value>Start cataloging your favorite coffees to build your personal collection.</value>
+  </data>
+  <data name="NoRecipesCreated" xml:space="preserve">
+    <value>No recipes created yet.</value>
+  </data>
+  <data name="NoRecipesCreatedDesc" xml:space="preserve">
+    <value>Create your first recipe to start building your brewing library.</value>
+  </data>
+  <data name="NoReviewsPublished" xml:space="preserve">
+    <value>No reviews published yet.</value>
+  </data>
+  <data name="NoReviewsPublishedDesc" xml:space="preserve">
+    <value>Share your first rating to start building your review history.</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="Method" xml:space="preserve">
+    <value>Method</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="Rating" xml:space="preserve">
+    <value>Rating</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="YourCoffees" xml:space="preserve">
+    <value>Your coffees</value>
+  </data>
+  <data name="YourRecipes" xml:space="preserve">
+    <value>Your recipes</value>
+  </data>
+  <data name="YourReviews" xml:space="preserve">
+    <value>Your reviews</value>
+  </data>
+  <data name="EditProfileDetails" xml:space="preserve">
+    <value>Edit profile details</value>
+  </data>
+  <data name="UpdateProfilePhoto" xml:space="preserve">
+    <value>Update profile photo</value>
+  </data>
+  <data name="EditProfileDesc" xml:space="preserve">
+    <value>Switch from the read-only view to account data editing.</value>
+  </data>
+  <data name="UpdatePhotoDesc" xml:space="preserve">
+    <value>Use an avatar URL for now. File upload can come later without changing the page structure.</value>
+  </data>
+  <data name="UpdatePasswordDesc" xml:space="preserve">
+    <value>Change your current password without leaving the user area.</value>
+  </data>
+  <data name="YourCoffeesDesc" xml:space="preserve">
+    <value>Reserved area for the coffees cataloged by this user.</value>
+  </data>
+  <data name="YourRecipesDesc" xml:space="preserve">
+    <value>Reserved area for the recipes created by this user.</value>
+  </data>
+  <data name="YourReviewsDesc" xml:space="preserve">
+    <value>Reserved area for the coffees reviewed by this user.</value>
+  </data>
+  <data name="ProfileDesc" xml:space="preserve">
+    <value>Read-only account view with quick actions for editing, photo, and password.</value>
+  </data>
+</root>

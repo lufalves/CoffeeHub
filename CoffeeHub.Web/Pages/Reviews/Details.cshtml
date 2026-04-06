@@ -1,0 +1,65 @@
+@page "{id:guid}"
+@model CoffeeHub.Web.Pages.Reviews.DetailsModel
+@{
+    ViewData["Title"] = "Review details";
+    var review = Model.Review!;
+    var breadcrumbs = new[]
+    {
+        ("Home", "/Home/Index"),
+        ("Reviews", "/Reviews/Index"),
+        ($"Review - {review.Rating:0.0}", null)
+    };
+}
+
+<partial name="_Breadcrumb" model="breadcrumbs" />
+
+<section class="coffee-page-header">
+    <div>
+        <span class="home-card-label">Review log</span>
+        <h1>Review details</h1>
+        <p>Inspect your rating and tasting notes for this coffee.</p>
+    </div>
+    <div class="coffee-page-actions">
+        <a class="coffee-link-button" asp-page="/Reviews/Index">Back to list</a>
+        <a class="coffeehub-nav-button" asp-page="/Reviews/Edit" asp-route-id="@review.Id">Edit review</a>
+    </div>
+</section>
+
+@if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
+{
+    <div class="coffee-status">@Model.StatusMessage</div>
+}
+
+<section class="coffee-card-shell">
+    <dl class="coffee-details-grid">
+        <div class="coffee-details-row">
+            <dt>Coffee</dt>
+            <dd>@(review.Coffee?.Name ?? review.CoffeeId.ToString())</dd>
+        </div>
+        <div class="coffee-details-row">
+            <dt>Rating</dt>
+            <dd>@BuildStars(review.Rating) (@review.Rating.ToString("0.0") / 5)</dd>
+        </div>
+        <div class="coffee-details-row">
+            <dt>Comment</dt>
+            <dd>@(string.IsNullOrWhiteSpace(review.Comment) ? "No comment provided." : review.Comment)</dd>
+        </div>
+        <div class="coffee-details-row">
+            <dt>Created at</dt>
+            <dd>@review.CreatedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm")</dd>
+        </div>
+    </dl>
+
+    <form method="post" asp-page-handler="Delete" asp-route-id="@review.Id" data-confirm-message="Are you sure you want to remove this review?">
+        <button type="submit" class="coffee-danger">Delete review</button>
+    </form>
+</section>
+
+@functions {
+    private static string BuildStars(decimal rating)
+    {
+        var rounded = (int)Math.Round(rating, MidpointRounding.AwayFromZero);
+        rounded = Math.Clamp(rounded, 1, 5);
+        return new string('★', rounded) + new string('☆', 5 - rounded);
+    }
+}

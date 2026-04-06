@@ -1,15 +1,13 @@
 using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
 using CoffeeHub.Application.Interfaces;
 using CoffeeHub.Domain.User;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using CoffeeHub.Web.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace CoffeeHub.Web.Pages.Account;
 
-public class RegisterModel(IAuthService authService) : PageModel
+public class RegisterModel(IAuthService authService, IUserService userService) : PageModel
 {
     [BindProperty]
     public RegisterInputModel Input { get; set; } = new();
@@ -48,30 +46,11 @@ public class RegisterModel(IAuthService authService) : PageModel
             return Page();
         }
 
-        await SignInUserAsync(user);
+        var totalUsers = await userService.GetTotalCountAsync(cancellationToken);
+        var role = totalUsers <= 1 ? "Admin" : "User";
+        await AuthenticationCookieHelper.SignInUserAsync(HttpContext, user, true, role);
 
         return RedirectToPage("/Home/Index");
-    }
-
-    private async Task SignInUserAsync(User user)
-    {
-        var claims = new List<Claim>
-        {
-            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new(ClaimTypes.Name, user.Name),
-            new(ClaimTypes.Email, user.Email)
-        };
-
-        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        var principal = new ClaimsPrincipal(identity);
-
-        await HttpContext.SignInAsync(
-            CookieAuthenticationDefaults.AuthenticationScheme,
-            principal,
-            new AuthenticationProperties
-            {
-                IsPersistent = true
-            });
     }
 
     public class RegisterInputModel

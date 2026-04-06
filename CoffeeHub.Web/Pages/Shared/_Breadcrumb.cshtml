@@ -1,0 +1,17 @@
+@model IEnumerable<(string Text, string? Url)>
+
+<nav aria-label="Breadcrumb" class="coffee-breadcrumb">
+    <ol>
+        @foreach (var item in Model)
+        {
+            @if (!string.IsNullOrEmpty(item.Url))
+            {
+                <li><a href="@item.Url">@item.Text</a></li>
+            }
+            else
+            {
+                <li aria-current="page">@item.Text</li>
+            }
+        }
+    </ol>
+</nav>

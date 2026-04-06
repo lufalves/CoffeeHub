@@ -1,0 +1,223 @@
+@page
+@model CoffeeHub.Web.Pages.Profile.IndexModel
+@{
+    ViewData["Title"] = "Profile";
+
+    var user = Model.CurrentUser;
+    var displayName = user?.Name ?? User.Identity?.Name ?? "CoffeeHub User";
+    var memberSince = user?.CreatedAt == default
+        ? "Unknown"
+        : user.CreatedAt.ToLocalTime().ToString("dd MMM yyyy");
+    var lastUpdated = user?.UpdatedAt == default
+        ? "Unknown"
+        : user.UpdatedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm");
+    var avatarUrl = user?.AvatarUrl;
+    var initials = GetInitials(displayName);
+}
+
+<section class="profile-shell">
+    <aside class="profile-sidebar-card">
+        <div class="profile-sidebar-top">
+            @if (!string.IsNullOrWhiteSpace(avatarUrl))
+            {
+                <img class="profile-avatar" src="@avatarUrl" alt="@displayName avatar" />
+            }
+            else
+            {
+                <div class="profile-avatar-placeholder" aria-label="@displayName initials">@initials</div>
+            }
+
+            <div>
+                <h1>@displayName</h1>
+                <p>Member since: @memberSince</p>
+            </div>
+        </div>
+
+        <nav class="profile-side-nav">
+            <a class="@Model.GetSectionClass(CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Profile)" asp-page="/Profile/Index" asp-route-section="profile">Profile</a>
+            <a class="@Model.GetSectionClass(CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Recipes)" asp-page="/Profile/Index" asp-route-section="recipes">Recipes</a>
+            <a class="@Model.GetSectionClass(CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Reviews)" asp-page="/Profile/Index" asp-route-section="reviews">Reviews</a>
+            <a class="@Model.GetSectionClass(CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Edit)" asp-page="/Profile/Index" asp-route-section="edit">Edit details</a>
+            <a class="@Model.GetSectionClass(CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Photo)" asp-page="/Profile/Index" asp-route-section="photo">Update photo</a>
+            <a class="@Model.GetSectionClass(CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Password)" asp-page="/Profile/Index" asp-route-section="password">Update password</a>
+        </nav>
+    </aside>
+
+    <section class="profile-content-card">
+        <header class="profile-content-header">
+            <div>
+                <span class="home-card-label">User area</span>
+                <h2>@GetSectionTitle(Model.ActiveSection)</h2>
+            </div>
+            <p>@GetSectionDescription(Model.ActiveSection)</p>
+        </header>
+
+        @if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
+        {
+            <div class="profile-status">@Model.StatusMessage</div>
+        }
+
+        <div asp-validation-summary="ModelOnly" class="validation-summary-errors"></div>
+
+        @if (Model.ActiveSection == CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Profile)
+        {
+            <div class="profile-section-card">
+                <dl class="profile-grid">
+                    <div class="profile-row">
+                        <dt>Display name</dt>
+                        <dd>@displayName</dd>
+                    </div>
+                    <div class="profile-row">
+                        <dt>Email</dt>
+                        <dd>@(user?.Email ?? "Not informed")</dd>
+                    </div>
+                    <div class="profile-row">
+                        <dt>Avatar source</dt>
+                        <dd>@(string.IsNullOrWhiteSpace(user?.AvatarUrl) ? "No avatar configured yet." : user!.AvatarUrl)</dd>
+                    </div>
+                    <div class="profile-row">
+                        <dt>User id</dt>
+                        <dd>@(user?.Id.ToString() ?? "Unknown")</dd>
+                    </div>
+                    <div class="profile-row">
+                        <dt>Created at</dt>
+                        <dd>@memberSince</dd>
+                    </div>
+                    <div class="profile-row">
+                        <dt>Last updated</dt>
+                        <dd>@lastUpdated</dd>
+                    </div>
+                </dl>
+
+                <div class="profile-actions">
+                    <a class="profile-link-button" asp-page="/Profile/Index" asp-route-section="edit">Edit details</a>
+                    <a class="profile-link-button" asp-page="/Profile/Index" asp-route-section="photo">Update photo</a>
+                    <a class="profile-link-button" asp-page="/Profile/Index" asp-route-section="password">Update password</a>
+                </div>
+            </div>
+        }
+        else if (Model.ActiveSection == CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Edit)
+        {
+            <form method="post" asp-page-handler="UpdateProfile" class="profile-form">
+                <div class="profile-form-grid">
+                    <label class="profile-field">
+                        <span>Name</span>
+                        <input asp-for="ProfileInput.Name" class="profile-input" />
+                        <span asp-validation-for="ProfileInput.Name" class="text-danger"></span>
+                    </label>
+
+                    <label class="profile-field">
+                        <span>Email</span>
+                        <input asp-for="ProfileInput.Email" class="profile-input" />
+                        <span asp-validation-for="ProfileInput.Email" class="text-danger"></span>
+                    </label>
+                </div>
+
+                <button type="submit" class="profile-submit">Save details</button>
+            </form>
+        }
+        else if (Model.ActiveSection == CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Photo)
+        {
+            <form method="post" asp-page-handler="UpdateAvatar" class="profile-form">
+                <label class="profile-field profile-field-full">
+                    <span>Avatar URL</span>
+                    <input asp-for="AvatarInput.AvatarUrl" class="profile-input" placeholder="https://..." />
+                    <span asp-validation-for="AvatarInput.AvatarUrl" class="text-danger"></span>
+                </label>
+
+                <p class="profile-helper">Leave the field empty and save if you want to remove the current photo.</p>
+
+                <button type="submit" class="profile-submit">Save photo</button>
+            </form>
+        }
+        else if (Model.ActiveSection == CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Password)
+        {
+            <form method="post" asp-page-handler="ChangePassword" class="profile-form">
+                <div class="profile-form-grid">
+                    <label class="profile-field profile-field-full">
+                        <span>Current password</span>
+                        <input asp-for="PasswordInput.CurrentPassword" class="profile-input" />
+                        <span asp-validation-for="PasswordInput.CurrentPassword" class="text-danger"></span>
+                    </label>
+
+                    <label class="profile-field">
+                        <span>New password</span>
+                        <input asp-for="PasswordInput.NewPassword" class="profile-input" />
+                        <span asp-validation-for="PasswordInput.NewPassword" class="text-danger"></span>
+                    </label>
+
+                    <label class="profile-field">
+                        <span>Confirm password</span>
+                        <input asp-for="PasswordInput.ConfirmPassword" class="profile-input" />
+                        <span asp-validation-for="PasswordInput.ConfirmPassword" class="text-danger"></span>
+                    </label>
+                </div>
+
+                <button type="submit" class="profile-submit">Save password</button>
+            </form>
+        }
+        else if (Model.ActiveSection == CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Recipes)
+        {
+            <div class="profile-empty">
+                <strong>Recipes will appear here.</strong>
+                <p class="profile-helper">This area is already wired in the user menu, but recipe creation and listing still need to be implemented.</p>
+            </div>
+        }
+        else if (Model.ActiveSection == CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Reviews)
+        {
+            <div class="profile-empty">
+                <strong>Reviews will appear here.</strong>
+                <p class="profile-helper">This section is ready in the profile navigation, and later it can show ratings, comments, and review history.</p>
+            </div>
+        }
+    </section>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+@functions {
+    private static string GetInitials(string name)
+    {
+        var parts = name.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+        if (parts.Length == 0)
+        {
+            return "CH";
+        }
+
+        if (parts.Length == 1)
+        {
+            return parts[0][..Math.Min(parts[0].Length, 2)].ToUpperInvariant();
+        }
+
+        return string.Concat(parts[0][0], parts[^1][0]).ToUpperInvariant();
+    }
+
+    private static string GetSectionTitle(string section)
+    {
+        return section switch
+        {
+            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Edit => "Edit profile details",
+            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Photo => "Update profile photo",
+            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Password => "Update password",
+            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Recipes => "Your recipes",
+            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Reviews => "Your reviews",
+            _ => "Profile"
+        };
+    }
+
+    private static string GetSectionDescription(string section)
+    {
+        return section switch
+        {
+            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Edit => "Switch from the read-only view to account data editing.",
+            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Photo => "Use an avatar URL for now. File upload can come later without changing the page structure.",
+            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Password => "Change your current password without leaving the user area.",
+            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Recipes => "Reserved area for the recipes created by this user.",
+            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Reviews => "Reserved area for the coffees reviewed by this user.",
+            _ => "Read-only account view with quick actions for editing, photo, and password."
+        };
+    }
+}

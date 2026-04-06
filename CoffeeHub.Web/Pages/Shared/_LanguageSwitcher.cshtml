@@ -1,0 +1,31 @@
+@{
+    var currentCulture = System.Globalization.CultureInfo.CurrentCulture.Name;
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
+}
+<div class="coffeehub-language-switcher dropdown">
+    <button class="coffeehub-lang-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        @if (currentCulture == "pt-BR")
+        {
+            <span>PT</span>
+        }
+        else
+        {
+            <span>EN</span>
+        }
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end">
+        <li>
+            <a class="dropdown-item @(currentCulture == "en-US" ? "active" : "")"
+               href="/Culture/Set?culture=en-US&returnUrl=@System.Net.WebUtility.UrlEncode(returnUrl)">
+                English
+            </a>
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+            <a class="dropdown-item @(currentCulture == "pt-BR" ? "active" : "")"
+               href="/Culture/Set?culture=pt-BR&returnUrl=@System.Net.WebUtility.UrlEncode(returnUrl)">
+                Português
+            </a>
+        </li>
+    </ul>
+</div>

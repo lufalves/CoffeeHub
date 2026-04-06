@@ -1,0 +1,36 @@
+@page
+@model CoffeeHub.Web.Pages.Recipes.IndexModel
+@{
+    ViewData["Title"] = "My Recipes";
+}
+
+<h2>My Recipes</h2>
+
+@if (!Model.Recipes.Any())
+{
+    <p class="text-muted">You haven't created any recipes yet.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Coffee</th>
+                <th>Method</th>
+                <th>Created</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var recipe in Model.Recipes)
+            {
+                <tr>
+                    <td>@recipe.Title</td>
+                    <td>@(recipe.Coffee?.Name ?? "Unknown")</td>
+                    <td>@(recipe.BrewingMethod?.Name ?? "Unknown")</td>
+                    <td>@recipe.CreatedAt.ToString("MMM dd, yyyy")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,72 @@
+@page "{id:guid}"
+@model CoffeeHub.Web.Pages.Coffees.DetailsModel
+@{
+    ViewData["Title"] = "Coffee details";
+    var coffee = Model.Coffee!;
+}
+
+<section class="coffee-page-header">
+    <div>
+        <span class="home-card-label">Coffee catalog</span>
+        <h1>@coffee.Name</h1>
+        <p>Read-only details for the current coffee entry.</p>
+    </div>
+    <div class="coffee-page-actions">
+        <a class="coffee-link-button" asp-page="/Coffees/Index">Back to list</a>
+        <a class="coffeehub-nav-button" asp-page="/Coffees/Edit" asp-route-id="@coffee.Id">Edit coffee</a>
+    </div>
+</section>
+
+@if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
+{
+    <div class="coffee-status">@Model.StatusMessage</div>
+}
+
+<section class="coffee-card-shell">
+    <dl class="coffee-details-grid">
+        <div class="coffee-details-row">
+            <dt>Barcode</dt>
+            <dd>@coffee.Barcode</dd>
+        </div>
+        <div class="coffee-details-row">
+            <dt>Name</dt>
+            <dd>@coffee.Name</dd>
+        </div>
+        <div class="coffee-details-row">
+            <dt>Description</dt>
+            <dd>@(string.IsNullOrWhiteSpace(coffee.Description) ? "No description registered." : coffee.Description)</dd>
+        </div>
+        <div class="coffee-details-row">
+            <dt>Roastery Id</dt>
+            <dd>@coffee.RoasteryId</dd>
+        </div>
+        <div class="coffee-details-row">
+            <dt>Origin Id</dt>
+            <dd>@(coffee.OriginId?.ToString() ?? "Not informed")</dd>
+        </div>
+        <div class="coffee-details-row">
+            <dt>Farm Id</dt>
+            <dd>@(coffee.FarmId?.ToString() ?? "Not informed")</dd>
+        </div>
+        <div class="coffee-details-row">
+            <dt>Bean Variety Id</dt>
+            <dd>@(coffee.BeanVarietyId?.ToString() ?? "Not informed")</dd>
+        </div>
+        <div class="coffee-details-row">
+            <dt>Roast Level Id</dt>
+            <dd>@(coffee.RoastLevelId?.ToString() ?? "Not informed")</dd>
+        </div>
+        <div class="coffee-details-row">
+            <dt>Created at</dt>
+            <dd>@coffee.CreatedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm")</dd>
+        </div>
+        <div class="coffee-details-row">
+            <dt>Updated at</dt>
+            <dd>@coffee.UpdatedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm")</dd>
+        </div>
+    </dl>
+
+    <form method="post" asp-page-handler="Delete" asp-route-id="@coffee.Id">
+        <button type="submit" class="coffee-danger">Delete coffee</button>
+    </form>
+</section>

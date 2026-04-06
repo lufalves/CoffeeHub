@@ -1,0 +1,49 @@
+@page
+@model CoffeeHub.Web.Pages.Origins.IndexModel
+@{
+    ViewData["Title"] = "Origins";
+}
+
+<section class="coffee-page-header">
+    <div>
+        <span class="home-card-label">Reference data</span>
+        <h1>Origins</h1>
+        <p>Browse all registered origins and open details to view related coffees.</p>
+    </div>
+</section>
+
+@if (Model.Origins.Count == 0)
+{
+    <section class="coffee-empty">
+        <h2>No origins found</h2>
+        <p class="coffee-form-helper">Reference data appears empty for this environment.</p>
+    </section>
+}
+else
+{
+    <section class="coffee-table-shell">
+        <table class="coffee-table">
+            <thead>
+                <tr>
+                    <th>Country</th>
+                    <th>Region</th>
+                    <th>Locality</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var origin in Model.Origins)
+                {
+                    <tr>
+                        <td>@origin.Country</td>
+                        <td>@(string.IsNullOrWhiteSpace(origin.Region) ? "-" : origin.Region)</td>
+                        <td>@(string.IsNullOrWhiteSpace(origin.Locality) ? "-" : origin.Locality)</td>
+                        <td>
+                            <a class="coffee-link-button" asp-page="/Origins/Details" asp-route-id="@origin.Id">Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+}
