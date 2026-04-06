@@ -31,6 +31,11 @@ public class CoffeesController(ICoffeeService coffeeService) : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Coffee>> Create(CreateCoffeeRequest request, CancellationToken cancellationToken)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
         try
         {
             var coffee = new Coffee
@@ -62,6 +67,11 @@ public class CoffeesController(ICoffeeService coffeeService) : ControllerBase
     [HttpPut("{id:guid}")]
     public async Task<ActionResult<Coffee>> Update(Guid id, UpdateCoffeeRequest request, CancellationToken cancellationToken)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
         try
         {
             var updatedCoffee = await coffeeService.UpdateAsync(

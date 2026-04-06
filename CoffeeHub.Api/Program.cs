@@ -1,3 +1,4 @@
+using CoffeeHub.Api.Middleware;
 using CoffeeHub.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,11 +13,14 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+else
+{
+    app.UseExceptionHandler("/error");
+}
 
+app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
