@@ -1,9 +1,26 @@
 .vs/
 .dotnet-cli/
+.opencode/
 
 **/bin/
 **/obj/
+**/TestResults/
 
 *.user
 *.suo
 *.slnx
+**/AGENTS.md
+*.trx
+*.coverage
+*.coveragexml
+*.log
+
+# Environment & secrets
+**/appsettings.Development.json
+**/appsettings.Production.json
+**/secrets.json
+.env
+
+# Build outputs
+**/bin/
+**/obj/
