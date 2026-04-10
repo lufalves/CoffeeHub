@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.4.11626.88 stable
+VisualStudioVersion = 18.4.11626.88
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeHub.Domain", "CoffeeHub.Domain\CoffeeHub.Domain.csproj", "{FF844496-8BE1-4BA6-9F6A-11876FBF93B9}"
 EndProject
@@ -23,7 +23,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E4D783AA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F23AA2C0-28FC-4CE7-BF5B-97A542D21562}"
 	ProjectSection(SolutionItems) = preProject
-		Agents.md = Agents.md
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -122,5 +121,8 @@ Global
 		{CACCF190-F095-4FBD-80A1-F0F893507A68} = {C7DF4B7E-7D2B-4E91-BB86-0A63D3A6EF08}
 		{C1DE24F1-EE14-428D-8795-4E016FC01DAE} = {C7DF4B7E-7D2B-4E91-BB86-0A63D3A6EF08}
 		{5AE647CB-F04F-4DBB-B44A-C75D9DBF77BE} = {E4D783AA-FC90-4B8A-BB86-F0D761D3A4D3}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3B464083-0A6C-4C23-AA44-B94FA860418E}
 	EndGlobalSection
 EndGlobal

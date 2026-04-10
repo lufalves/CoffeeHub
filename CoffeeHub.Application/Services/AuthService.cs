@@ -1,5 +1,6 @@
 using CoffeeHub.Application.Common;
 using CoffeeHub.Application.Interfaces;
+using CoffeeHub.Domain.Common;
 using CoffeeHub.Domain.User;
 using Microsoft.Extensions.Logging;
 
@@ -11,7 +12,8 @@ public class AuthService(IUserRepository userRepository, IPasswordHashService pa
     {
         ValidateRegistration(name, email, password, avatarUrl);
 
-        var normalizedEmail = EntityValidator.NormalizeEmail(email);
+        // Validate and normalize email using domain EmailAddress (throws ArgumentException on invalid format)
+        var normalizedEmail = EmailAddress.Create(email).Value;
         var existingUser = await userRepository.GetByEmailAsync(normalizedEmail, cancellationToken);
 
         if (existingUser is not null)
@@ -26,6 +28,13 @@ public class AuthService(IUserRepository userRepository, IPasswordHashService pa
             Email = normalizedEmail,
             AvatarUrl = EntityValidator.NormalizeOptionalString(avatarUrl)
         };
+
+        // If this is the first user in the system, promote to Admin
+        var totalUsers = await userRepository.GetTotalCountAsync(cancellationToken);
+        if (totalUsers == 0)
+        {
+            user.Role = "Admin";
+        }
 
         user.PasswordHash = passwordHashService.HashPassword(user, password);
 
