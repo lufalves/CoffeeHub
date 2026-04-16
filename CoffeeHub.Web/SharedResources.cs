@@ -1,4 +1,4 @@
-namespace CoffeeHub.Web.Resources;
+namespace CoffeeHub.Web;
 
 /// <summary>
 /// Marker class for shared resources localization.

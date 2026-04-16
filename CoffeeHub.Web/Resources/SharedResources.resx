@@ -397,4 +397,547 @@
   <data name="ProfileDesc" xml:space="preserve">
     <value>Read-only account view with quick actions for editing, photo, and password.</value>
   </data>
+  <!-- Login Page -->
+  <data name="LoginPageTitle" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="LoginBrandKicker" xml:space="preserve">
+    <value>CoffeeHub</value>
+  </data>
+  <data name="LoginBrandTagline" xml:space="preserve">
+    <value>Track remarkable coffees, recipes, and reviews in one place.</value>
+  </data>
+  <data name="LoginBrandDesc" xml:space="preserve">
+    <value>Start with a focused personal workspace for coffee discovery, tasting notes, and future social features.</value>
+  </data>
+  <data name="LoginHighlightCatalogTitle" xml:space="preserve">
+    <value>Catalog coffees</value>
+  </data>
+  <data name="LoginHighlightCatalogDesc" xml:space="preserve">
+    <value>Origins, roasteries, roast levels, and brewing context.</value>
+  </data>
+  <data name="LoginHighlightReviewsTitle" xml:space="preserve">
+    <value>Write reviews</value>
+  </data>
+  <data name="LoginHighlightReviewsDesc" xml:space="preserve">
+    <value>Ratings and tasting impressions designed to grow over time.</value>
+  </data>
+  <data name="LoginHighlightRecipesTitle" xml:space="preserve">
+    <value>Save recipes</value>
+  </data>
+  <data name="LoginHighlightRecipesDesc" xml:space="preserve">
+    <value>Brewing methods, ratios, and repeatable preparation notes.</value>
+  </data>
+  <data name="LoginEarlyAccess" xml:space="preserve">
+    <value>Early access</value>
+  </data>
+  <data name="LoginFormHeading" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="LoginFormSubheading" xml:space="preserve">
+    <value>Use your CoffeeHub account to enter the platform.</value>
+  </data>
+  <data name="LoginEmailPlaceholder" xml:space="preserve">
+    <value>you@coffeehub.dev</value>
+  </data>
+  <data name="LoginPasswordPlaceholder" xml:space="preserve">
+    <value>Enter your password</value>
+  </data>
+  <data name="LoginRememberMe" xml:space="preserve">
+    <value>Keep me signed in on this device</value>
+  </data>
+  <data name="LoginSubmit" xml:space="preserve">
+    <value>Enter CoffeeHub</value>
+  </data>
+  <data name="LoginNoAccount" xml:space="preserve">
+    <value>New around here?</value>
+  </data>
+  <data name="LoginCreateAccount" xml:space="preserve">
+    <value>Create an account</value>
+  </data>
+  <data name="LoginErrorLockout" xml:space="preserve">
+    <value>Too many failed attempts. Try again in {0} minutes.</value>
+  </data>
+  <data name="LoginErrorInvalidCredentials" xml:space="preserve">
+    <value>Invalid email or password.</value>
+  </data>
+  <!-- Home Page -->
+  <data name="HomeKicker" xml:space="preserve">
+    <value>Coffee feed</value>
+  </data>
+  <data name="HomeHeroTagline" xml:space="preserve">
+    <value>Discover coffees in a simple catalog inspired by the feel of a tasting platform.</value>
+  </data>
+  <data name="HomeHeroDesc" xml:space="preserve">
+    <value>The home page now works as a general coffee showcase. Later this can evolve into recommendations, top-rated coffees, trending roasteries, and personalized sections.</value>
+  </data>
+  <data name="HomeCatalogSectionLabel" xml:space="preserve">
+    <value>Catalog</value>
+  </data>
+  <data name="HomeAllCoffees" xml:space="preserve">
+    <value>All coffees</value>
+  </data>
+  <data name="HomeCatalogOrderNote" xml:space="preserve">
+    <value>Current list ordered by name. This is the base feed before ranking and recommendation layers.</value>
+  </data>
+  <data name="HomeEmptyStateTitle" xml:space="preserve">
+    <value>No coffees registered yet</value>
+  </data>
+  <data name="HomeEmptyStateDesc" xml:space="preserve">
+    <value>Your database is ready, but the catalog is still empty. The next useful step is to create the first coffee records so the home page can start behaving like a real tasting feed.</value>
+  </data>
+  <data name="HomeCardCoffeeChip" xml:space="preserve">
+    <value>Coffee</value>
+  </data>
+  <data name="HomeCoffeeCountSingular" xml:space="preserve">
+    <value>entry is</value>
+  </data>
+  <data name="HomeCoffeeCountPlural" xml:space="preserve">
+    <value>entries are</value>
+  </data>
+  <data name="HomeCoffeeCountSuffix" xml:space="preserve">
+    <value>currently available in the catalog.</value>
+  </data>
+  <!-- Error Page -->
+  <data name="ErrorTitle" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="ErrorHeading" xml:space="preserve">
+    <value>An error occurred while processing your request.</value>
+  </data>
+  <data name="ErrorRequestId" xml:space="preserve">
+    <value>Request ID:</value>
+  </data>
+  <data name="ErrorDevModeTitle" xml:space="preserve">
+    <value>Development Mode</value>
+  </data>
+  <data name="ErrorDevModeDesc" xml:space="preserve">
+    <value>Swapping to the Development environment displays detailed information about the error that occurred.</value>
+  </data>
+  <data name="ErrorDevModeWarning" xml:space="preserve">
+    <value>The Development environment shouldn't be enabled for deployed applications.</value>
+  </data>
+  <data name="ErrorDevModeWarningDesc" xml:space="preserve">
+    <value>It can result in displaying sensitive information from exceptions to end users. For local debugging, enable the Development environment by setting the ASPNETCORE_ENVIRONMENT environment variable to Development and restarting the app.</value>
+  </data>
+  <!-- NotFound Page -->
+  <data name="NotFoundCode" xml:space="preserve">
+    <value>404</value>
+  </data>
+  <data name="NotFoundTitle" xml:space="preserve">
+    <value>Page not found</value>
+  </data>
+  <data name="NotFoundDesc" xml:space="preserve">
+    <value>The page you requested does not exist or is no longer available.</value>
+  </data>
+  <data name="NotFoundGoHome" xml:space="preserve">
+    <value>Go home</value>
+  </data>
+  <data name="NotFoundBrowseCoffees" xml:space="preserve">
+    <value>Browse coffees</value>
+  </data>
+  <!-- Privacy Page -->
+  <data name="PrivacyTitle" xml:space="preserve">
+    <value>Privacy Policy</value>
+  </data>
+  <data name="PrivacyDesc" xml:space="preserve">
+    <value>Use this page to detail your site's privacy policy.</value>
+  </data>
+  <!-- Register Page -->
+  <data name="RegisterKicker" xml:space="preserve">
+    <value>Join CoffeeHub</value>
+  </data>
+  <data name="RegisterHeading" xml:space="preserve">
+    <value>Create your tasting workspace and start shaping your coffee catalog.</value>
+  </data>
+  <data name="RegisterDesc" xml:space="preserve">
+    <value>Register your first account to begin organizing coffees, reviews, recipes, and brewing notes in one place.</value>
+  </data>
+  <data name="RegisterHighlightProfileTitle" xml:space="preserve">
+    <value>Build your profile</value>
+  </data>
+  <data name="RegisterHighlightProfileDesc" xml:space="preserve">
+    <value>Create a personal identity for your future reviews and recipes.</value>
+  </data>
+  <data name="RegisterHighlightSimpleTitle" xml:space="preserve">
+    <value>Start simple</value>
+  </data>
+  <data name="RegisterHighlightSimpleDesc" xml:space="preserve">
+    <value>This first registration flow is intentionally lean and practical.</value>
+  </data>
+  <data name="RegisterHighlightGrowTitle" xml:space="preserve">
+    <value>Grow later</value>
+  </data>
+  <data name="RegisterHighlightGrowDesc" xml:space="preserve">
+    <value>Social and richer profile features can be added on top of this base.</value>
+  </data>
+  <data name="RegisterBadge" xml:space="preserve">
+    <value>New account</value>
+  </data>
+  <data name="RegisterFormHeading" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="RegisterFormDesc" xml:space="preserve">
+    <value>Create a local account backed by the PostgreSQL database.</value>
+  </data>
+  <data name="RegisterNamePlaceholder" xml:space="preserve">
+    <value>Your name</value>
+  </data>
+  <data name="RegisterEmailPlaceholder" xml:space="preserve">
+    <value>you@coffeehub.dev</value>
+  </data>
+  <data name="RegisterPasswordPlaceholder" xml:space="preserve">
+    <value>Create a password</value>
+  </data>
+  <data name="RegisterConfirmPlaceholder" xml:space="preserve">
+    <value>Repeat your password</value>
+  </data>
+  <data name="RegisterSubmit" xml:space="preserve">
+    <value>Create account</value>
+  </data>
+  <data name="RegisterAlreadyRegistered" xml:space="preserve">
+    <value>Already registered?</value>
+  </data>
+  <data name="RegisterGoToLogin" xml:space="preserve">
+    <value>Go to login</value>
+  </data>
+  <!-- Profile Page -->
+  <data name="ProfileMemberSinceLabel" xml:space="preserve">
+    <value>Member since:</value>
+  </data>
+  <data name="ProfileSectionNav_Profile" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="ProfileSectionNav_Recipes" xml:space="preserve">
+    <value>Recipes</value>
+  </data>
+  <data name="ProfileSectionNav_Reviews" xml:space="preserve">
+    <value>Reviews</value>
+  </data>
+  <data name="ProfileSectionNav_Edit" xml:space="preserve">
+    <value>Edit details</value>
+  </data>
+  <data name="ProfileSectionNav_Photo" xml:space="preserve">
+    <value>Update photo</value>
+  </data>
+  <data name="ProfileSectionNav_Password" xml:space="preserve">
+    <value>Update password</value>
+  </data>
+  <data name="ProfileRecipesPlaceholder" xml:space="preserve">
+    <value>Recipes will appear here.</value>
+  </data>
+  <data name="ProfileRecipesPlaceholderDesc" xml:space="preserve">
+    <value>This area is already wired in the user menu, but recipe creation and listing still need to be implemented.</value>
+  </data>
+  <data name="ProfileReviewsPlaceholder" xml:space="preserve">
+    <value>Reviews will appear here.</value>
+  </data>
+  <data name="ProfileReviewsPlaceholderDesc" xml:space="preserve">
+    <value>This section is ready in the profile navigation, and later it can show ratings, comments, and review history.</value>
+  </data>
+  <!-- Coffees Pages -->
+  <data name="CoffeesCatalogLabel" xml:space="preserve">
+    <value>Coffee catalog</value>
+  </data>
+  <data name="CoffeesIndexHeading" xml:space="preserve">
+    <value>All coffees</value>
+  </data>
+  <data name="CoffeesIndexDesc" xml:space="preserve">
+    <value>Basic management screen for the catalog with navigation to register, inspect, and update each coffee.</value>
+  </data>
+  <data name="CoffeesRegisterBtn" xml:space="preserve">
+    <value>Register coffee</value>
+  </data>
+  <data name="CoffeesEmptyTitle" xml:space="preserve">
+    <value>No coffees registered yet</value>
+  </data>
+  <data name="CoffeesEmptyDesc" xml:space="preserve">
+    <value>Create the first entry to start using the catalog workflow.</value>
+  </data>
+  <data name="CoffeesColRoasteryId" xml:space="preserve">
+    <value>Roastery Id</value>
+  </data>
+  <data name="CoffeesDetailsLabel" xml:space="preserve">
+    <value>Read-only details for the current coffee entry.</value>
+  </data>
+  <data name="CoffeesEditCoffeeBtn" xml:space="preserve">
+    <value>Edit coffee</value>
+  </data>
+  <data name="CoffeesOriginId" xml:space="preserve">
+    <value>Origin Id</value>
+  </data>
+  <data name="CoffeesFarmId" xml:space="preserve">
+    <value>Farm Id</value>
+  </data>
+  <data name="CoffeesBeanVarietyId" xml:space="preserve">
+    <value>Bean Variety Id</value>
+  </data>
+  <data name="CoffeesRoastLevelId" xml:space="preserve">
+    <value>Roast Level Id</value>
+  </data>
+  <data name="CoffeesUpdatedAt" xml:space="preserve">
+    <value>Updated at</value>
+  </data>
+  <data name="CoffeesDeleteBtn" xml:space="preserve">
+    <value>Delete coffee</value>
+  </data>
+  <data name="CoffeesNoDescRegistered" xml:space="preserve">
+    <value>No description registered.</value>
+  </data>
+  <data name="CoffeesCreateHeading" xml:space="preserve">
+    <value>Register coffee</value>
+  </data>
+  <data name="CoffeesCreateDesc" xml:space="preserve">
+    <value>Create a new coffee entry with barcode, name, description, and the related ids already available in the domain.</value>
+  </data>
+  <data name="CoffeesCreateGuidHelper" xml:space="preserve">
+    <value>For now the related entities are informed by GUID. Later this can evolve into dropdowns and lookup screens.</value>
+  </data>
+  <data name="CoffeesSaveCoffeeBtn" xml:space="preserve">
+    <value>Save coffee</value>
+  </data>
+  <data name="CoffeesEditHeading" xml:space="preserve">
+    <value>Edit coffee</value>
+  </data>
+  <data name="CoffeesEditDesc" xml:space="preserve">
+    <value>Update the current coffee entry without leaving the catalog workflow.</value>
+  </data>
+  <data name="CoffeesSaveChangesBtn" xml:space="preserve">
+    <value>Save changes</value>
+  </data>
+  <!-- Origins Pages -->
+  <data name="OriginsReferenceLabel" xml:space="preserve">
+    <value>Reference data</value>
+  </data>
+  <data name="OriginsIndexHeading" xml:space="preserve">
+    <value>Origins</value>
+  </data>
+  <data name="OriginsIndexDesc" xml:space="preserve">
+    <value>Browse all registered origins and open details to view related coffees.</value>
+  </data>
+  <data name="OriginsEmptyTitle" xml:space="preserve">
+    <value>No origins found</value>
+  </data>
+  <data name="OriginsEmptyDesc" xml:space="preserve">
+    <value>Reference data appears empty for this environment.</value>
+  </data>
+  <data name="OriginsColCountry" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="OriginsColRegion" xml:space="preserve">
+    <value>Region</value>
+  </data>
+  <data name="OriginsColLocality" xml:space="preserve">
+    <value>Locality</value>
+  </data>
+  <data name="OriginsNoDesc" xml:space="preserve">
+    <value>No description provided.</value>
+  </data>
+  <data name="OriginsBackBtn" xml:space="preserve">
+    <value>Back to origins</value>
+  </data>
+  <data name="OriginsFromThisOrigin" xml:space="preserve">
+    <value>Coffees from this origin</value>
+  </data>
+  <data name="OriginsNoCoffeesLinked" xml:space="preserve">
+    <value>No coffees linked to this origin yet.</value>
+  </data>
+  <data name="OriginsColRoastery" xml:space="preserve">
+    <value>Roastery</value>
+  </data>
+  <!-- Roasteries Pages -->
+  <data name="RoasteriesIndexHeading" xml:space="preserve">
+    <value>Roasteries</value>
+  </data>
+  <data name="RoasteriesIndexDesc" xml:space="preserve">
+    <value>Browse all registered roasteries and open details to view related coffees.</value>
+  </data>
+  <data name="RoasteriesEmptyTitle" xml:space="preserve">
+    <value>No roasteries found</value>
+  </data>
+  <data name="RoasteriesEmptyDesc" xml:space="preserve">
+    <value>Reference data appears empty for this environment.</value>
+  </data>
+  <data name="RoasteriesColWebsite" xml:space="preserve">
+    <value>Website</value>
+  </data>
+  <data name="RoasteriesColInstagram" xml:space="preserve">
+    <value>Instagram</value>
+  </data>
+  <data name="RoasteriesNoDesc" xml:space="preserve">
+    <value>No description provided.</value>
+  </data>
+  <data name="RoasteriesBackBtn" xml:space="preserve">
+    <value>Back to roasteries</value>
+  </data>
+  <data name="RoasteriesFromThisRoastery" xml:space="preserve">
+    <value>Coffees from this roastery</value>
+  </data>
+  <data name="RoasteriesNoCoffeesLinked" xml:space="preserve">
+    <value>No coffees linked to this roastery yet.</value>
+  </data>
+  <data name="RoasteriesColOrigin" xml:space="preserve">
+    <value>Origin</value>
+  </data>
+  <!-- Recipes Pages -->
+  <data name="RecipesLibraryLabel" xml:space="preserve">
+    <value>Recipe library</value>
+  </data>
+  <data name="RecipesIndexHeading" xml:space="preserve">
+    <value>My Recipes</value>
+  </data>
+  <data name="RecipesEmptyDesc" xml:space="preserve">
+    <value>You haven't created any recipes yet.</value>
+  </data>
+  <data name="RecipesColTitle" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="RecipesColCoffee" xml:space="preserve">
+    <value>Coffee</value>
+  </data>
+  <data name="RecipesColMethod" xml:space="preserve">
+    <value>Method</value>
+  </data>
+  <data name="RecipesDetailsDesc" xml:space="preserve">
+    <value>Review the complete recipe and brewing parameters.</value>
+  </data>
+  <data name="RecipesEditBtn" xml:space="preserve">
+    <value>Edit recipe</value>
+  </data>
+  <data name="RecipesBrewingMethod" xml:space="preserve">
+    <value>Brewing method</value>
+  </data>
+  <data name="RecipesCoffeeAmount" xml:space="preserve">
+    <value>Coffee amount</value>
+  </data>
+  <data name="RecipesWaterAmount" xml:space="preserve">
+    <value>Water amount</value>
+  </data>
+  <data name="RecipesBrewTime" xml:space="preserve">
+    <value>Brew time</value>
+  </data>
+  <data name="RecipesInstructions" xml:space="preserve">
+    <value>Instructions</value>
+  </data>
+  <data name="RecipesNoDescProvided" xml:space="preserve">
+    <value>No description provided.</value>
+  </data>
+  <data name="RecipesNoInstructions" xml:space="preserve">
+    <value>No instructions provided.</value>
+  </data>
+  <data name="RecipesDeleteBtn" xml:space="preserve">
+    <value>Delete recipe</value>
+  </data>
+  <data name="RecipesCreateHeading" xml:space="preserve">
+    <value>Create recipe</value>
+  </data>
+  <data name="RecipesCreateDesc" xml:space="preserve">
+    <value>Register a new brewing recipe with method, ratios, and preparation steps.</value>
+  </data>
+  <data name="RecipesSelectCoffee" xml:space="preserve">
+    <value>Select a coffee</value>
+  </data>
+  <data name="RecipesSelectMethod" xml:space="preserve">
+    <value>Select a method</value>
+  </data>
+  <data name="RecipesCoffeeAmountLabel" xml:space="preserve">
+    <value>Coffee amount (g)</value>
+  </data>
+  <data name="RecipesWaterAmountLabel" xml:space="preserve">
+    <value>Water amount (ml)</value>
+  </data>
+  <data name="RecipesBrewTimeLabel" xml:space="preserve">
+    <value>Brew time (seconds)</value>
+  </data>
+  <data name="RecipesSaveBtn" xml:space="preserve">
+    <value>Save recipe</value>
+  </data>
+  <data name="RecipesEditHeading" xml:space="preserve">
+    <value>Edit recipe</value>
+  </data>
+  <data name="RecipesEditDesc" xml:space="preserve">
+    <value>Update your brewing method, ratios, and instructions.</value>
+  </data>
+  <!-- Reviews Pages -->
+  <data name="ReviewsLogLabel" xml:space="preserve">
+    <value>Review log</value>
+  </data>
+  <data name="ReviewsIndexHeading" xml:space="preserve">
+    <value>My Reviews</value>
+  </data>
+  <data name="ReviewsEmptyDesc" xml:space="preserve">
+    <value>You haven't written any reviews yet.</value>
+  </data>
+  <data name="ReviewsColCoffee" xml:space="preserve">
+    <value>Coffee</value>
+  </data>
+  <data name="ReviewsColRating" xml:space="preserve">
+    <value>Rating</value>
+  </data>
+  <data name="ReviewsColComment" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="ReviewsColDate" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="ReviewsDetailsHeading" xml:space="preserve">
+    <value>Review details</value>
+  </data>
+  <data name="ReviewsDetailsDesc" xml:space="preserve">
+    <value>Inspect your rating and tasting notes for this coffee.</value>
+  </data>
+  <data name="ReviewsEditBtn" xml:space="preserve">
+    <value>Edit review</value>
+  </data>
+  <data name="ReviewsNoComment" xml:space="preserve">
+    <value>No comment provided.</value>
+  </data>
+  <data name="ReviewsDeleteBtn" xml:space="preserve">
+    <value>Delete review</value>
+  </data>
+  <data name="ReviewsCreateHeading" xml:space="preserve">
+    <value>Create review</value>
+  </data>
+  <data name="ReviewsCreateDesc" xml:space="preserve">
+    <value>Submit your rating and tasting notes for a coffee.</value>
+  </data>
+  <data name="ReviewsSelectCoffee" xml:space="preserve">
+    <value>Select a coffee</value>
+  </data>
+  <data name="ReviewsSaveBtn" xml:space="preserve">
+    <value>Save review</value>
+  </data>
+  <data name="ReviewsEditHeading" xml:space="preserve">
+    <value>Edit review</value>
+  </data>
+  <data name="ReviewsEditDesc" xml:space="preserve">
+    <value>Adjust rating and tasting notes for your review.</value>
+  </data>
+  <data name="ValidationRequired" xml:space="preserve">
+    <value>The field '{0}' is required.</value>
+  </data>
+  <data name="ValidationEmail" xml:space="preserve">
+    <value>The '{0}' must be a valid email.</value>
+  </data>
+  <data name="ValidationMinLength" xml:space="preserve">
+    <value>The '{0}' must be at least {1} characters long.</value>
+  </data>
+  <data name="ValidationMaxLength" xml:space="preserve">
+    <value>The '{0}' must be at most {1} characters long.</value>
+  </data>
+  <data name="ValidationCompare" xml:space="preserve">
+    <value>The '{0}' and '{1}' do not match.</value>
+  </data>
+  <data name="ValidationRange" xml:space="preserve">
+    <value>The '{0}' must be between {1} and {2}.</value>
+  </data>
+  <data name="ValidationInvalidGuid" xml:space="preserve">
+    <value>The '{0}' must be a valid GUID.</value>
+  </data>
+  <data name="ValidationInvalidLogin" xml:space="preserve">
+    <value>Invalid email or password.</value>
+  </data>
+  <data name="ValidationUrl" xml:space="preserve">
+    <value>The '{0}' must be a valid URL.</value>
+  </data>
 </root>

@@ -1,22 +1,22 @@
 @page
 @model CoffeeHub.Web.Pages.Roasteries.IndexModel
 @{
-    ViewData["Title"] = "Roasteries";
+    ViewData["Title"] = S["Roasteries"].Value;
 }
 
 <section class="coffee-page-header">
     <div>
-        <span class="home-card-label">Reference data</span>
-        <h1>Roasteries</h1>
-        <p>Browse all registered roasteries and open details to view related coffees.</p>
+        <span class="home-card-label">@S["OriginsReferenceLabel"]</span>
+        <h1>@S["RoasteriesIndexHeading"]</h1>
+        <p>@S["RoasteriesIndexDesc"]</p>
     </div>
 </section>
 
 @if (Model.Roasteries.Count == 0)
 {
     <section class="coffee-empty">
-        <h2>No roasteries found</h2>
-        <p class="coffee-form-helper">Reference data appears empty for this environment.</p>
+        <h2>@S["RoasteriesEmptyTitle"]</h2>
+        <p class="coffee-form-helper">@S["RoasteriesEmptyDesc"]</p>
     </section>
 }
 else
@@ -25,10 +25,10 @@ else
         <table class="coffee-table">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Website</th>
-                    <th>Instagram</th>
-                    <th>Actions</th>
+                    <th>@S["Name"]</th>
+                    <th>@S["RoasteriesColWebsite"]</th>
+                    <th>@S["RoasteriesColInstagram"]</th>
+                    <th>@S["Actions"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,7 +48,7 @@ else
                         </td>
                         <td>@(string.IsNullOrWhiteSpace(roastery.InstagramUrl) ? "-" : roastery.InstagramUrl)</td>
                         <td>
-                            <a class="coffee-link-button" asp-page="/Roasteries/Details" asp-route-id="@roastery.Id">Details</a>
+                            <a class="coffee-link-button" asp-page="/Roasteries/Details" asp-route-id="@roastery.Id">@S["Details"]</a>
                         </td>
                     </tr>
                 }

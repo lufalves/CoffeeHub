@@ -1,17 +1,17 @@
 @page
 @model CoffeeHub.Web.Pages.Reviews.CreateModel
 @{
-    ViewData["Title"] = "Create review";
+    ViewData["Title"] = S["ReviewsCreateHeading"].Value;
 }
 
 <section class="coffee-page-header">
     <div>
-        <span class="home-card-label">Review log</span>
-        <h1>Create review</h1>
-        <p>Submit your rating and tasting notes for a coffee.</p>
+        <span class="home-card-label">@S["ReviewsLogLabel"]</span>
+        <h1>@S["ReviewsCreateHeading"]</h1>
+        <p>@S["ReviewsCreateDesc"]</p>
     </div>
     <div class="coffee-page-actions">
-        <a class="coffee-link-button" asp-page="/Reviews/Index">Back to list</a>
+        <a class="coffee-link-button" asp-page="/Reviews/Index">@S["BackToList"]</a>
     </div>
 </section>
 
@@ -21,9 +21,9 @@
     <form method="post" class="coffee-form">
         <div class="coffee-form-grid">
             <label class="coffee-field coffee-field-full">
-                <span>Coffee</span>
+                <span>@S["Coffee"]</span>
                 <select asp-for="Input.CoffeeId" class="coffee-input">
-                    <option value="">Select a coffee</option>
+                    <option value="">@S["ReviewsSelectCoffee"]</option>
                     @foreach (var coffee in Model.Coffees)
                     {
                         <option value="@coffee.Id">@coffee.Name</option>
@@ -33,7 +33,7 @@
             </label>
 
             <div class="coffee-field coffee-field-full">
-                <span>Rating</span>
+                <span>@S["Rating"]</span>
                 <div class="review-stars">
                     @for (var value = 5; value >= 1; value--)
                     {
@@ -46,15 +46,15 @@
             </div>
 
             <label class="coffee-field coffee-field-full">
-                <span>Comment</span>
+                <span>@S["Comment"]</span>
                 <textarea asp-for="Input.Comment" class="coffee-input coffee-textarea"></textarea>
                 <span asp-validation-for="Input.Comment" class="text-danger"></span>
             </label>
         </div>
 
         <div class="coffee-form-actions">
-            <button type="submit" class="coffee-submit">Save review</button>
-            <a class="coffee-link-button" asp-page="/Reviews/Index">Cancel</a>
+            <button type="submit" class="coffee-submit">@S["ReviewsSaveBtn"]</button>
+            <a class="coffee-link-button" asp-page="/Reviews/Index">@S["Cancel"]</a>
         </div>
     </form>
 </section>

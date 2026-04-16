@@ -1,8 +1,8 @@
-﻿@page
+@page
 @model PrivacyModel
 @{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = S["PrivacyTitle"].Value;
 }
-<h1>@ViewData["Title"]</h1>
+<h1>@S["PrivacyTitle"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<p>@S["PrivacyDesc"]</p>

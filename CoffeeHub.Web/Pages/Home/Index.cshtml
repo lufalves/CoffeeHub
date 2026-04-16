@@ -1,45 +1,39 @@
 @page
 @model CoffeeHub.Web.Pages.Home.IndexModel
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = S["Home"];
 }
 
 <section class="home-hero">
     <div>
-        <span class="home-kicker">Coffee feed</span>
-        <h1>Discover coffees in a simple catalog inspired by the feel of a tasting platform.</h1>
-        <p class="home-lead">
-            The home page now works as a general coffee showcase. Later this can evolve into
-            recommendations, top-rated coffees, trending roasteries, and personalized sections.
-        </p>
+        <span class="home-kicker">@S["HomeKicker"]</span>
+        <h1>@S["HomeHeroTagline"]</h1>
+        <p class="home-lead">@S["HomeHeroDesc"]</p>
     </div>
 
     <div class="home-card home-card-welcome">
-        <span class="home-card-label">Signed in as</span>
+        <span class="home-card-label">@S["SignedInAs"]</span>
         <strong>@Model.WelcomeName</strong>
-        <p>@Model.Coffees.Count coffee @(Model.Coffees.Count == 1 ? "entry is" : "entries are") currently available in the catalog.</p>
+        <p>@Model.Coffees.Count @S[Model.Coffees.Count == 1 ? "HomeCoffeeCountSingular" : "HomeCoffeeCountPlural"] @S["HomeCoffeeCountSuffix"]</p>
     </div>
 </section>
 
 <section class="home-section-header">
     <div>
-        <span class="home-card-label">Catalog</span>
-        <h2>All coffees</h2>
+        <span class="home-card-label">@S["HomeCatalogSectionLabel"]</span>
+        <h2>@S["HomeAllCoffees"]</h2>
     </div>
     <div class="home-section-actions">
-        <p>Current list ordered by name. This is the base feed before ranking and recommendation layers.</p>
-        <a class="coffeehub-nav-button" asp-page="/Coffees/Index">Manage coffees</a>
+        <p>@S["HomeCatalogOrderNote"]</p>
+        <a class="coffeehub-nav-button" asp-page="/Coffees/Index">@S["ManageCoffees"]</a>
     </div>
 </section>
 
 @if (Model.Coffees.Count == 0)
 {
     <section class="home-empty-state">
-        <h3>No coffees registered yet</h3>
-        <p>
-            Your database is ready, but the catalog is still empty. The next useful step is to create
-            the first coffee records so the home page can start behaving like a real tasting feed.
-        </p>
+        <h3>@S["HomeEmptyStateTitle"]</h3>
+        <p>@S["HomeEmptyStateDesc"]</p>
     </section>
 }
 else
@@ -49,7 +43,7 @@ else
         {
             <article class="coffee-feed-card">
                 <div class="coffee-feed-top">
-                    <span class="coffee-feed-chip">Coffee</span>
+                    <span class="coffee-feed-chip">@S["HomeCardCoffeeChip"]</span>
                     <span class="coffee-feed-date">@coffee.CreatedAt.ToLocalTime().ToString("dd MMM yyyy")</span>
                 </div>
 
@@ -61,25 +55,25 @@ else
                 }
                 else
                 {
-                    <p class="coffee-feed-muted">This coffee does not have a description yet.</p>
+                    <p class="coffee-feed-muted">@S["NoDescription"]</p>
                 }
 
                 <dl class="coffee-feed-meta">
                     <div>
-                        <dt>Barcode</dt>
+                        <dt>@S["Barcode"]</dt>
                         <dd>@coffee.Barcode</dd>
                     </div>
                     <div>
-                        <dt>Roastery</dt>
-                        <dd>@(coffee.Roastery?.Name ?? "Not informed")</dd>
+                        <dt>@S["Roastery"]</dt>
+                        <dd>@(coffee.Roastery?.Name ?? S["NotInformed"])</dd>
                     </div>
                     <div>
-                        <dt>Origin</dt>
-                        <dd>@(coffee.Origin?.Region ?? "Not informed")</dd>
+                        <dt>@S["Origin"]</dt>
+                        <dd>@(coffee.Origin?.Region ?? S["NotInformed"])</dd>
                     </div>
                     <div>
-                        <dt>Roast level</dt>
-                        <dd>@(coffee.RoastLevel?.Name ?? "Not informed")</dd>
+                        <dt>@S["RoastLevel"]</dt>
+                        <dd>@(coffee.RoastLevel?.Name ?? S["NotInformed"])</dd>
                     </div>
                 </dl>
             </article>

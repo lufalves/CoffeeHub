@@ -5,14 +5,17 @@ namespace CoffeeHub.Web.Pages.Reviews;
 
 public class ReviewFormModel
 {
-    [Required]
+    [Required(ErrorMessage = "ValidationRequired")]
+    [Display(Name = "Coffee")]
     public Guid? CoffeeId { get; set; }
 
-    [Required]
-    [Range(1, 5)]
+    [Required(ErrorMessage = "ValidationRequired")]
+    [Range(1, 5, ErrorMessage = "ValidationRange")]
+    [Display(Name = "Rating")]
     public decimal Rating { get; set; } = 5;
 
-    [StringLength(2000)]
+    [StringLength(2000, ErrorMessage = "ValidationMaxLength")]
+    [Display(Name = "Comment")]
     public string? Comment { get; set; }
 
     public void LoadFrom(Review review)

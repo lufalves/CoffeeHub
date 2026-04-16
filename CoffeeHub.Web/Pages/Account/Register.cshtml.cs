@@ -55,22 +55,26 @@ public class RegisterModel(IAuthService authService, IUserService userService) :
 
     public class RegisterInputModel
     {
-        [Required]
-        [StringLength(150)]
+        [Required(ErrorMessage = "ValidationRequired")]
+        [StringLength(150, ErrorMessage = "ValidationMaxLength")]
+        [Display(Name = "Name")]
         public string Name { get; set; } = string.Empty;
 
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "ValidationRequired")]
+        [EmailAddress(ErrorMessage = "ValidationEmail")]
+        [Display(Name = "Email")]
         public string Email { get; set; } = string.Empty;
 
-        [Required]
-        [MinLength(6)]
+        [Required(ErrorMessage = "ValidationRequired")]
+        [MinLength(6, ErrorMessage = "ValidationMinLength")]
         [DataType(DataType.Password)]
+        [Display(Name = "Password")]
         public string Password { get; set; } = string.Empty;
 
-        [Required]
+        [Required(ErrorMessage = "ValidationRequired")]
         [DataType(DataType.Password)]
-        [Compare(nameof(Password))]
+        [Compare(nameof(Password), ErrorMessage = "ValidationCompare")]
+        [Display(Name = "ConfirmPassword")]
         public string ConfirmPassword { get; set; } = string.Empty;
     }
 }

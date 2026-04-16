@@ -1,17 +1,17 @@
 @page
 @model CoffeeHub.Web.Pages.Coffees.IndexModel
 @{
-    ViewData["Title"] = "Coffees";
+    ViewData["Title"] = S["Coffees"].Value;
 }
 
 <section class="coffee-page-header">
     <div>
-        <span class="home-card-label">Coffee catalog</span>
-        <h1>All coffees</h1>
-        <p>Basic management screen for the catalog with navigation to register, inspect, and update each coffee.</p>
+        <span class="home-card-label">@S["CoffeesCatalogLabel"]</span>
+        <h1>@S["CoffeesIndexHeading"]</h1>
+        <p>@S["CoffeesIndexDesc"]</p>
     </div>
     <div class="coffee-page-actions">
-        <a class="coffeehub-nav-button" asp-page="/Coffees/Create">Register coffee</a>
+        <a class="coffeehub-nav-button" asp-page="/Coffees/Create">@S["CoffeesRegisterBtn"]</a>
     </div>
 </section>
 
@@ -23,8 +23,8 @@
 @if (Model.PagedCoffees.Items.Count == 0)
 {
     <section class="coffee-empty">
-        <h2>No coffees registered yet</h2>
-        <p class="coffee-form-helper">Create the first entry to start using the catalog workflow.</p>
+        <h2>@S["CoffeesEmptyTitle"]</h2>
+        <p class="coffee-form-helper">@S["CoffeesEmptyDesc"]</p>
     </section>
 }
 else
@@ -33,11 +33,11 @@ else
         <table class="coffee-table">
             <thead>
                 <tr>
-                    <th>Barcode</th>
-                    <th>Name</th>
-                    <th>Roastery Id</th>
-                    <th>Created</th>
-                    <th>Actions</th>
+                    <th>@S["Barcode"]</th>
+                    <th>@S["Name"]</th>
+                    <th>@S["CoffeesColRoasteryId"]</th>
+                    <th>@S["Created"]</th>
+                    <th>@S["Actions"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,8 +50,8 @@ else
                         <td>@coffee.CreatedAt.ToLocalTime().ToString("dd MMM yyyy")</td>
                         <td>
                             <div class="coffee-table-actions">
-                                <a class="coffee-link-button" asp-page="/Coffees/Details" asp-route-id="@coffee.Id">Details</a>
-                                <a class="coffee-link-button" asp-page="/Coffees/Edit" asp-route-id="@coffee.Id">Edit</a>
+                                <a class="coffee-link-button" asp-page="/Coffees/Details" asp-route-id="@coffee.Id">@S["Details"]</a>
+                                <a class="coffee-link-button" asp-page="/Coffees/Edit" asp-route-id="@coffee.Id">@S["Edit"]</a>
                             </div>
                         </td>
                     </tr>
@@ -67,7 +67,7 @@ else
                 @if (Model.PagedCoffees.HasPreviousPage)
                 {
                     <li class="page-item">
-                        <a class="page-link" asp-page="/Coffees/Index" asp-route-page="@(Model.PagedCoffees.Page - 1)">Previous</a>
+                        <a class="page-link" asp-page="/Coffees/Index" asp-route-page="@(Model.PagedCoffees.Page - 1)">@S["Previous"]</a>
                     </li>
                 }
                 @for (int i = 1; i <= Model.PagedCoffees.TotalPages; i++)
@@ -79,7 +79,7 @@ else
                 @if (Model.PagedCoffees.HasNextPage)
                 {
                     <li class="page-item">
-                        <a class="page-link" asp-page="/Coffees/Index" asp-route-page="@(Model.PagedCoffees.Page + 1)">Next</a>
+                        <a class="page-link" asp-page="/Coffees/Index" asp-route-page="@(Model.PagedCoffees.Page + 1)">@S["Next"]</a>
                     </li>
                 }
             </ul>

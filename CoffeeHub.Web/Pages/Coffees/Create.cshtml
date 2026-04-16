@@ -1,17 +1,17 @@
 @page
 @model CoffeeHub.Web.Pages.Coffees.CreateModel
 @{
-    ViewData["Title"] = "Register coffee";
+    ViewData["Title"] = S["CoffeesCreateHeading"].Value;
 }
 
 <section class="coffee-page-header">
     <div>
-        <span class="home-card-label">Coffee catalog</span>
-        <h1>Register coffee</h1>
-        <p>Create a new coffee entry with barcode, name, description, and the related ids already available in the domain.</p>
+        <span class="home-card-label">@S["CoffeesCatalogLabel"]</span>
+        <h1>@S["CoffeesCreateHeading"]</h1>
+        <p>@S["CoffeesCreateDesc"]</p>
     </div>
     <div class="coffee-page-actions">
-        <a class="coffee-link-button" asp-page="/Coffees/Index">Back to list</a>
+        <a class="coffee-link-button" asp-page="/Coffees/Index">@S["BackToList"]</a>
     </div>
 </section>
 
@@ -21,59 +21,59 @@
     <form method="post" class="coffee-form">
         <div class="coffee-form-grid">
             <label class="coffee-field">
-                <span>Barcode</span>
+                <span>@S["Barcode"]</span>
                 <input asp-for="Input.Barcode" class="coffee-input" />
                 <span asp-validation-for="Input.Barcode" class="text-danger"></span>
             </label>
 
             <label class="coffee-field">
-                <span>Name</span>
+                <span>@S["Name"]</span>
                 <input asp-for="Input.Name" class="coffee-input" />
                 <span asp-validation-for="Input.Name" class="text-danger"></span>
             </label>
 
             <label class="coffee-field coffee-field-full">
-                <span>Description</span>
+                <span>@S["Description"]</span>
                 <textarea asp-for="Input.Description" class="coffee-input coffee-textarea"></textarea>
                 <span asp-validation-for="Input.Description" class="text-danger"></span>
             </label>
 
             <label class="coffee-field">
-                <span>Roastery Id</span>
+                <span>@S["CoffeesColRoasteryId"]</span>
                 <input asp-for="Input.RoasteryId" class="coffee-input" />
                 <span asp-validation-for="Input.RoasteryId" class="text-danger"></span>
             </label>
 
             <label class="coffee-field">
-                <span>Origin Id</span>
+                <span>@S["CoffeesOriginId"]</span>
                 <input asp-for="Input.OriginId" class="coffee-input" />
                 <span asp-validation-for="Input.OriginId" class="text-danger"></span>
             </label>
 
             <label class="coffee-field">
-                <span>Farm Id</span>
+                <span>@S["CoffeesFarmId"]</span>
                 <input asp-for="Input.FarmId" class="coffee-input" />
                 <span asp-validation-for="Input.FarmId" class="text-danger"></span>
             </label>
 
             <label class="coffee-field">
-                <span>Bean Variety Id</span>
+                <span>@S["CoffeesBeanVarietyId"]</span>
                 <input asp-for="Input.BeanVarietyId" class="coffee-input" />
                 <span asp-validation-for="Input.BeanVarietyId" class="text-danger"></span>
             </label>
 
             <label class="coffee-field">
-                <span>Roast Level Id</span>
+                <span>@S["CoffeesRoastLevelId"]</span>
                 <input asp-for="Input.RoastLevelId" class="coffee-input" />
                 <span asp-validation-for="Input.RoastLevelId" class="text-danger"></span>
             </label>
         </div>
 
-        <p class="coffee-form-helper">For now the related entities are informed by GUID. Later this can evolve into dropdowns and lookup screens.</p>
+        <p class="coffee-form-helper">@S["CoffeesCreateGuidHelper"]</p>
 
         <div class="coffee-form-actions">
-            <button type="submit" class="coffee-submit">Save coffee</button>
-            <a class="coffee-link-button" asp-page="/Coffees/Index">Cancel</a>
+            <button type="submit" class="coffee-submit">@S["CoffeesSaveCoffeeBtn"]</button>
+            <a class="coffee-link-button" asp-page="/Coffees/Index">@S["Cancel"]</a>
         </div>
     </form>
 </section>

@@ -1,13 +1,18 @@
 using System.ComponentModel.DataAnnotations;
 using CoffeeHub.Application.Interfaces;
 using CoffeeHub.Domain.User;
+using CoffeeHub.Web;
 using CoffeeHub.Web.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Localization;
 
 namespace CoffeeHub.Web.Pages.Account;
 
-public class LoginModel(IAuthService authService, LoginAttemptTracker loginTracker) : PageModel
+public class LoginModel(
+    IAuthService authService,
+    LoginAttemptTracker loginTracker,
+    IStringLocalizer<SharedResources> localizer) : PageModel
 {
     [BindProperty]
     public LoginInputModel Input { get; set; } = new();
@@ -32,7 +37,7 @@ public class LoginModel(IAuthService authService, LoginAttemptTracker loginTrack
         if (loginTracker.IsLockedOut(Input.Email))
         {
             var remaining = loginTracker.GetLockoutRemaining(Input.Email);
-            ModelState.AddModelError(string.Empty, $"Too many failed attempts. Try again in {remaining?.Minutes:N0} minutes.");
+            ModelState.AddModelError(string.Empty, string.Format(localizer["LoginErrorLockout"], remaining?.Minutes));
             return Page();
         }
 
@@ -51,7 +56,7 @@ public class LoginModel(IAuthService authService, LoginAttemptTracker loginTrack
         if (user is null)
         {
             loginTracker.RecordFailure(Input.Email);
-            ModelState.AddModelError(string.Empty, "Invalid email or password.");
+            ModelState.AddModelError(string.Empty, localizer["LoginErrorInvalidCredentials"]);
             return Page();
         }
 
@@ -63,14 +68,17 @@ public class LoginModel(IAuthService authService, LoginAttemptTracker loginTrack
 
     public class LoginInputModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "ValidationRequired")]
+        [EmailAddress(ErrorMessage = "ValidationEmail")]
+        [Display(Name = "Email")]
         public string Email { get; set; } = string.Empty;
 
-        [Required]
+        [Required(ErrorMessage = "ValidationRequired")]
         [DataType(DataType.Password)]
+        [Display(Name = "Password")]
         public string Password { get; set; } = string.Empty;
 
+        [Display(Name = "LoginRememberMeLabel")]
         public bool RememberMe { get; set; }
     }
 

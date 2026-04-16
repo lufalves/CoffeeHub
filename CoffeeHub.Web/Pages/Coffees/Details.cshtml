@@ -1,19 +1,19 @@
 @page "{id:guid}"
 @model CoffeeHub.Web.Pages.Coffees.DetailsModel
 @{
-    ViewData["Title"] = "Coffee details";
+    ViewData["Title"] = S["Details"].Value;
     var coffee = Model.Coffee!;
 }
 
 <section class="coffee-page-header">
     <div>
-        <span class="home-card-label">Coffee catalog</span>
+        <span class="home-card-label">@S["CoffeesCatalogLabel"]</span>
         <h1>@coffee.Name</h1>
-        <p>Read-only details for the current coffee entry.</p>
+        <p>@S["CoffeesDetailsLabel"]</p>
     </div>
     <div class="coffee-page-actions">
-        <a class="coffee-link-button" asp-page="/Coffees/Index">Back to list</a>
-        <a class="coffeehub-nav-button" asp-page="/Coffees/Edit" asp-route-id="@coffee.Id">Edit coffee</a>
+        <a class="coffee-link-button" asp-page="/Coffees/Index">@S["BackToList"]</a>
+        <a class="coffeehub-nav-button" asp-page="/Coffees/Edit" asp-route-id="@coffee.Id">@S["CoffeesEditCoffeeBtn"]</a>
     </div>
 </section>
 
@@ -25,48 +25,48 @@
 <section class="coffee-card-shell">
     <dl class="coffee-details-grid">
         <div class="coffee-details-row">
-            <dt>Barcode</dt>
+            <dt>@S["Barcode"]</dt>
             <dd>@coffee.Barcode</dd>
         </div>
         <div class="coffee-details-row">
-            <dt>Name</dt>
+            <dt>@S["Name"]</dt>
             <dd>@coffee.Name</dd>
         </div>
         <div class="coffee-details-row">
-            <dt>Description</dt>
-            <dd>@(string.IsNullOrWhiteSpace(coffee.Description) ? "No description registered." : coffee.Description)</dd>
+            <dt>@S["Description"]</dt>
+            <dd>@(string.IsNullOrWhiteSpace(coffee.Description) ? S["CoffeesNoDescRegistered"].Value : coffee.Description)</dd>
         </div>
         <div class="coffee-details-row">
-            <dt>Roastery Id</dt>
+            <dt>@S["CoffeesColRoasteryId"]</dt>
             <dd>@coffee.RoasteryId</dd>
         </div>
         <div class="coffee-details-row">
-            <dt>Origin Id</dt>
-            <dd>@(coffee.OriginId?.ToString() ?? "Not informed")</dd>
+            <dt>@S["CoffeesOriginId"]</dt>
+            <dd>@(coffee.OriginId?.ToString() ?? S["NotInformed"].Value)</dd>
         </div>
         <div class="coffee-details-row">
-            <dt>Farm Id</dt>
-            <dd>@(coffee.FarmId?.ToString() ?? "Not informed")</dd>
+            <dt>@S["CoffeesFarmId"]</dt>
+            <dd>@(coffee.FarmId?.ToString() ?? S["NotInformed"].Value)</dd>
         </div>
         <div class="coffee-details-row">
-            <dt>Bean Variety Id</dt>
-            <dd>@(coffee.BeanVarietyId?.ToString() ?? "Not informed")</dd>
+            <dt>@S["CoffeesBeanVarietyId"]</dt>
+            <dd>@(coffee.BeanVarietyId?.ToString() ?? S["NotInformed"].Value)</dd>
         </div>
         <div class="coffee-details-row">
-            <dt>Roast Level Id</dt>
-            <dd>@(coffee.RoastLevelId?.ToString() ?? "Not informed")</dd>
+            <dt>@S["CoffeesRoastLevelId"]</dt>
+            <dd>@(coffee.RoastLevelId?.ToString() ?? S["NotInformed"].Value)</dd>
         </div>
         <div class="coffee-details-row">
-            <dt>Created at</dt>
+            <dt>@S["CreatedAt"]</dt>
             <dd>@coffee.CreatedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm")</dd>
         </div>
         <div class="coffee-details-row">
-            <dt>Updated at</dt>
+            <dt>@S["CoffeesUpdatedAt"]</dt>
             <dd>@coffee.UpdatedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm")</dd>
         </div>
     </dl>
 
     <form method="post" asp-page-handler="Delete" asp-route-id="@coffee.Id">
-        <button type="submit" class="coffee-danger">Delete coffee</button>
+        <button type="submit" class="coffee-danger">@S["CoffeesDeleteBtn"]</button>
     </form>
 </section>

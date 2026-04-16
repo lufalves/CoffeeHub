@@ -1,5 +1,5 @@
 using CoffeeHub.Infrastructure;
-using CoffeeHub.Web.Resources;
+using CoffeeHub.Web;
 using CoffeeHub.Web.Security;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;

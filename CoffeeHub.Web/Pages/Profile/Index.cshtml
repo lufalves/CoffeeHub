@@ -1,15 +1,15 @@
 @page
 @model CoffeeHub.Web.Pages.Profile.IndexModel
 @{
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = S["Profile"].Value;
 
     var user = Model.CurrentUser;
     var displayName = user?.Name ?? User.Identity?.Name ?? "CoffeeHub User";
-    var memberSince = user?.CreatedAt == default
-        ? "Unknown"
+    var memberSince = user == null || user.CreatedAt == default
+        ? S["Unknown"].Value
         : user.CreatedAt.ToLocalTime().ToString("dd MMM yyyy");
-    var lastUpdated = user?.UpdatedAt == default
-        ? "Unknown"
+    var lastUpdated = user == null || user.UpdatedAt == default
+        ? S["Unknown"].Value
         : user.UpdatedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm");
     var avatarUrl = user?.AvatarUrl;
     var initials = GetInitials(displayName);
@@ -29,24 +29,24 @@
 
             <div>
                 <h1>@displayName</h1>
-                <p>Member since: @memberSince</p>
+                <p>@S["ProfileMemberSinceLabel"] @memberSince</p>
             </div>
         </div>
 
         <nav class="profile-side-nav">
-            <a class="@Model.GetSectionClass(CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Profile)" asp-page="/Profile/Index" asp-route-section="profile">Profile</a>
-            <a class="@Model.GetSectionClass(CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Recipes)" asp-page="/Profile/Index" asp-route-section="recipes">Recipes</a>
-            <a class="@Model.GetSectionClass(CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Reviews)" asp-page="/Profile/Index" asp-route-section="reviews">Reviews</a>
-            <a class="@Model.GetSectionClass(CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Edit)" asp-page="/Profile/Index" asp-route-section="edit">Edit details</a>
-            <a class="@Model.GetSectionClass(CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Photo)" asp-page="/Profile/Index" asp-route-section="photo">Update photo</a>
-            <a class="@Model.GetSectionClass(CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Password)" asp-page="/Profile/Index" asp-route-section="password">Update password</a>
+            <a class="@Model.GetSectionClass(CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Profile)" asp-page="/Profile/Index" asp-route-section="profile">@S["ProfileSectionNav_Profile"]</a>
+            <a class="@Model.GetSectionClass(CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Recipes)" asp-page="/Profile/Index" asp-route-section="recipes">@S["ProfileSectionNav_Recipes"]</a>
+            <a class="@Model.GetSectionClass(CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Reviews)" asp-page="/Profile/Index" asp-route-section="reviews">@S["ProfileSectionNav_Reviews"]</a>
+            <a class="@Model.GetSectionClass(CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Edit)" asp-page="/Profile/Index" asp-route-section="edit">@S["ProfileSectionNav_Edit"]</a>
+            <a class="@Model.GetSectionClass(CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Photo)" asp-page="/Profile/Index" asp-route-section="photo">@S["ProfileSectionNav_Photo"]</a>
+            <a class="@Model.GetSectionClass(CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Password)" asp-page="/Profile/Index" asp-route-section="password">@S["ProfileSectionNav_Password"]</a>
         </nav>
     </aside>
 
     <section class="profile-content-card">
         <header class="profile-content-header">
             <div>
-                <span class="home-card-label">User area</span>
+                <span class="home-card-label">@S["UserArea"]</span>
                 <h2>@GetSectionTitle(Model.ActiveSection)</h2>
             </div>
             <p>@GetSectionDescription(Model.ActiveSection)</p>
@@ -64,35 +64,35 @@
             <div class="profile-section-card">
                 <dl class="profile-grid">
                     <div class="profile-row">
-                        <dt>Display name</dt>
+                        <dt>@S["DisplayName"]</dt>
                         <dd>@displayName</dd>
                     </div>
                     <div class="profile-row">
-                        <dt>Email</dt>
-                        <dd>@(user?.Email ?? "Not informed")</dd>
+                        <dt>@S["Email"]</dt>
+                        <dd>@(user?.Email ?? S["NotInformed"].Value)</dd>
                     </div>
                     <div class="profile-row">
-                        <dt>Avatar source</dt>
-                        <dd>@(string.IsNullOrWhiteSpace(user?.AvatarUrl) ? "No avatar configured yet." : user!.AvatarUrl)</dd>
+                        <dt>@S["AvatarSource"]</dt>
+                        <dd>@(string.IsNullOrWhiteSpace(user?.AvatarUrl) ? S["NoAvatarConfigured"].Value : user!.AvatarUrl)</dd>
                     </div>
                     <div class="profile-row">
-                        <dt>User id</dt>
-                        <dd>@(user?.Id.ToString() ?? "Unknown")</dd>
+                        <dt>@S["UserId"]</dt>
+                        <dd>@(user?.Id.ToString() ?? S["Unknown"].Value)</dd>
                     </div>
                     <div class="profile-row">
-                        <dt>Created at</dt>
+                        <dt>@S["CreatedAt"]</dt>
                         <dd>@memberSince</dd>
                     </div>
                     <div class="profile-row">
-                        <dt>Last updated</dt>
+                        <dt>@S["LastUpdated"]</dt>
                         <dd>@lastUpdated</dd>
                     </div>
                 </dl>
 
                 <div class="profile-actions">
-                    <a class="profile-link-button" asp-page="/Profile/Index" asp-route-section="edit">Edit details</a>
-                    <a class="profile-link-button" asp-page="/Profile/Index" asp-route-section="photo">Update photo</a>
-                    <a class="profile-link-button" asp-page="/Profile/Index" asp-route-section="password">Update password</a>
+                    <a class="profile-link-button" asp-page="/Profile/Index" asp-route-section="edit">@S["EditDetails"]</a>
+                    <a class="profile-link-button" asp-page="/Profile/Index" asp-route-section="photo">@S["UpdatePhoto"]</a>
+                    <a class="profile-link-button" asp-page="/Profile/Index" asp-route-section="password">@S["UpdatePassword"]</a>
                 </div>
             </div>
         }
@@ -101,33 +101,33 @@
             <form method="post" asp-page-handler="UpdateProfile" class="profile-form">
                 <div class="profile-form-grid">
                     <label class="profile-field">
-                        <span>Name</span>
+                        <span>@S["Name"]</span>
                         <input asp-for="ProfileInput.Name" class="profile-input" />
                         <span asp-validation-for="ProfileInput.Name" class="text-danger"></span>
                     </label>
 
                     <label class="profile-field">
-                        <span>Email</span>
+                        <span>@S["Email"]</span>
                         <input asp-for="ProfileInput.Email" class="profile-input" />
                         <span asp-validation-for="ProfileInput.Email" class="text-danger"></span>
                     </label>
                 </div>
 
-                <button type="submit" class="profile-submit">Save details</button>
+                <button type="submit" class="profile-submit">@S["SaveDetails"]</button>
             </form>
         }
         else if (Model.ActiveSection == CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Photo)
         {
             <form method="post" asp-page-handler="UpdateAvatar" class="profile-form">
                 <label class="profile-field profile-field-full">
-                    <span>Avatar URL</span>
-                    <input asp-for="AvatarInput.AvatarUrl" class="profile-input" placeholder="https://..." />
+                    <span>@S["AvatarUrl"]</span>
+                    <input asp-for="AvatarInput.AvatarUrl" class="profile-input" placeholder="@S["AvatarUrlPlaceholder"]" />
                     <span asp-validation-for="AvatarInput.AvatarUrl" class="text-danger"></span>
                 </label>
 
-                <p class="profile-helper">Leave the field empty and save if you want to remove the current photo.</p>
+                <p class="profile-helper">@S["AvatarUrlHelp"]</p>
 
-                <button type="submit" class="profile-submit">Save photo</button>
+                <button type="submit" class="profile-submit">@S["SavePhoto"]</button>
             </form>
         }
         else if (Model.ActiveSection == CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Password)
@@ -135,39 +135,39 @@
             <form method="post" asp-page-handler="ChangePassword" class="profile-form">
                 <div class="profile-form-grid">
                     <label class="profile-field profile-field-full">
-                        <span>Current password</span>
+                        <span>@S["CurrentPassword"]</span>
                         <input asp-for="PasswordInput.CurrentPassword" class="profile-input" />
                         <span asp-validation-for="PasswordInput.CurrentPassword" class="text-danger"></span>
                     </label>
 
                     <label class="profile-field">
-                        <span>New password</span>
+                        <span>@S["NewPassword"]</span>
                         <input asp-for="PasswordInput.NewPassword" class="profile-input" />
                         <span asp-validation-for="PasswordInput.NewPassword" class="text-danger"></span>
                     </label>
 
                     <label class="profile-field">
-                        <span>Confirm password</span>
+                        <span>@S["ConfirmPassword"]</span>
                         <input asp-for="PasswordInput.ConfirmPassword" class="profile-input" />
                         <span asp-validation-for="PasswordInput.ConfirmPassword" class="text-danger"></span>
                     </label>
                 </div>
 
-                <button type="submit" class="profile-submit">Save password</button>
+                <button type="submit" class="profile-submit">@S["SavePassword"]</button>
             </form>
         }
         else if (Model.ActiveSection == CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Recipes)
         {
             <div class="profile-empty">
-                <strong>Recipes will appear here.</strong>
-                <p class="profile-helper">This area is already wired in the user menu, but recipe creation and listing still need to be implemented.</p>
+                <strong>@S["ProfileRecipesPlaceholder"]</strong>
+                <p class="profile-helper">@S["ProfileRecipesPlaceholderDesc"]</p>
             </div>
         }
         else if (Model.ActiveSection == CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Reviews)
         {
             <div class="profile-empty">
-                <strong>Reviews will appear here.</strong>
-                <p class="profile-helper">This section is ready in the profile navigation, and later it can show ratings, comments, and review history.</p>
+                <strong>@S["ProfileReviewsPlaceholder"]</strong>
+                <p class="profile-helper">@S["ProfileReviewsPlaceholderDesc"]</p>
             </div>
         }
     </section>
@@ -195,29 +195,29 @@
         return string.Concat(parts[0][0], parts[^1][0]).ToUpperInvariant();
     }
 
-    private static string GetSectionTitle(string section)
+    private string GetSectionTitle(string section)
     {
         return section switch
         {
-            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Edit => "Edit profile details",
-            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Photo => "Update profile photo",
-            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Password => "Update password",
-            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Recipes => "Your recipes",
-            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Reviews => "Your reviews",
-            _ => "Profile"
+            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Edit => S["EditProfileDetails"].Value,
+            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Photo => S["UpdateProfilePhoto"].Value,
+            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Password => S["UpdatePassword"].Value,
+            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Recipes => S["YourRecipes"].Value,
+            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Reviews => S["YourReviews"].Value,
+            _ => S["Profile"].Value
         };
     }
 
-    private static string GetSectionDescription(string section)
+    private string GetSectionDescription(string section)
     {
         return section switch
         {
-            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Edit => "Switch from the read-only view to account data editing.",
-            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Photo => "Use an avatar URL for now. File upload can come later without changing the page structure.",
-            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Password => "Change your current password without leaving the user area.",
-            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Recipes => "Reserved area for the recipes created by this user.",
-            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Reviews => "Reserved area for the coffees reviewed by this user.",
-            _ => "Read-only account view with quick actions for editing, photo, and password."
+            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Edit => S["EditProfileDesc"].Value,
+            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Photo => S["UpdatePhotoDesc"].Value,
+            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Password => S["UpdatePasswordDesc"].Value,
+            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Recipes => S["YourRecipesDesc"].Value,
+            CoffeeHub.Web.Pages.Profile.IndexModel.ProfileSections.Reviews => S["YourReviewsDesc"].Value,
+            _ => S["ProfileDesc"].Value
         };
     }
 }

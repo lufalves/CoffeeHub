@@ -168,25 +168,25 @@ The project already has:
 - Objective: Add English and Portuguese UI support with a language switcher that persists the user's choice in a cookie.
 - Implementation:
   - Official ASP.NET Core localization with .resx resources (SharedResources and Portuguese translations).
+  - Data Annotations localization for validation messages via FormModels using `ErrorMessage` keys explicitly.
+  - Form validation with `IStringLocalizer` dependency injection inside PageModels mapped directly down to Form logic validation logic.
   - Cookie-based persistence for culture preference (`.CoffeeHub.Culture`).
   - Navbar language switcher partial that toggles between EN and PT-BR.
-  - Dynamic language selection in the main layout via IStringLocalizer and IViewLocalizer.
+  - Dynamic language selection in the main layout and all Razor Pages via IStringLocalizer and IViewLocalizer.
   - Program.cs wired to register localization services and middleware; a CultureController to handle culture changes.
 - Key files:
   - `CoffeeHub.Web/Resources/SharedResources.resx` and `SharedResources.pt.resx`
   - `CoffeeHub.Web/Controllers/CultureController.cs`
-  - `CoffeeHub.Web/Resources/SharedResources.cs` (resource marker type)
   - `CoffeeHub.Web/Pages/Shared/_LanguageSwitcher.cshtml`
-  - `CoffeeHub.Web/Pages/Shared/_Layout.cshtml` (dynamic text via Localizer, language switcher integrated)
-  - `CoffeeHub.Web/Program.cs` (localization services and middleware)
-  - `CoffeeHub.Web/Pages/_ViewImports.cshtml` (inject Localizers)
+  - `CoffeeHub.Web/Pages/Shared/_Layout.cshtml`
+  - FormModels (e.g. `CoffeeFormModel.cs`, `RecipeFormModel.cs`) using `[Required(ErrorMessage = "Key")]` 
+  - `CoffeeHub.Web/Program.cs` 
 - How to test:
   1. Build and run the app.
   2. On any page, use the language switcher in the navbar to switch between English and Portuguese.
-  3. Verify texts update instantly (e.g., navbar items, headers, footers).
-  4. Refresh the page and ensure the language persists (cookie-based persistence).
-  5. Navigate to different pages to ensure translations apply across the app.
+  3. Verify texts update instantly (e.g., navbar items, headers, footers, tables and labels).
+  4. Submit invalid forms to check validation error messages displaying natively in the chosen culture.
+  5. Refresh the page and ensure the language persists (cookie-based persistence).
 - Future improvements:
-  - Extend translations to all pages (per-page .resx files).
-  - Localize validation messages and emails.
   - Add OpenAPI documentation for the API if localization for API endpoints is desired later.
+  - Localize email sending templates.

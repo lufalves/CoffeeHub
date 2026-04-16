@@ -1,13 +1,13 @@
 @page "{id:guid}"
 @model CoffeeHub.Web.Pages.Reviews.DetailsModel
 @{
-    ViewData["Title"] = "Review details";
+    ViewData["Title"] = S["ReviewsDetailsHeading"].Value;
     var review = Model.Review!;
     var breadcrumbs = new[]
     {
-        ("Home", "/Home/Index"),
-        ("Reviews", "/Reviews/Index"),
-        ($"Review - {review.Rating:0.0}", null)
+        (S["Home"].Value, "/Home/Index"),
+        (S["Reviews"].Value, "/Reviews/Index"),
+        ($"{S["ReviewsDetailsHeading"].Value} - {review.Rating:0.0}", null)
     };
 }
 
@@ -15,13 +15,13 @@
 
 <section class="coffee-page-header">
     <div>
-        <span class="home-card-label">Review log</span>
-        <h1>Review details</h1>
-        <p>Inspect your rating and tasting notes for this coffee.</p>
+        <span class="home-card-label">@S["ReviewsLogLabel"]</span>
+        <h1>@S["ReviewsDetailsHeading"]</h1>
+        <p>@S["ReviewsDetailsDesc"]</p>
     </div>
     <div class="coffee-page-actions">
-        <a class="coffee-link-button" asp-page="/Reviews/Index">Back to list</a>
-        <a class="coffeehub-nav-button" asp-page="/Reviews/Edit" asp-route-id="@review.Id">Edit review</a>
+        <a class="coffee-link-button" asp-page="/Reviews/Index">@S["BackToList"]</a>
+        <a class="coffeehub-nav-button" asp-page="/Reviews/Edit" asp-route-id="@review.Id">@S["ReviewsEditBtn"]</a>
     </div>
 </section>
 
@@ -33,25 +33,25 @@
 <section class="coffee-card-shell">
     <dl class="coffee-details-grid">
         <div class="coffee-details-row">
-            <dt>Coffee</dt>
+            <dt>@S["Coffee"]</dt>
             <dd>@(review.Coffee?.Name ?? review.CoffeeId.ToString())</dd>
         </div>
         <div class="coffee-details-row">
-            <dt>Rating</dt>
+            <dt>@S["Rating"]</dt>
             <dd>@BuildStars(review.Rating) (@review.Rating.ToString("0.0") / 5)</dd>
         </div>
         <div class="coffee-details-row">
-            <dt>Comment</dt>
-            <dd>@(string.IsNullOrWhiteSpace(review.Comment) ? "No comment provided." : review.Comment)</dd>
+            <dt>@S["Comment"]</dt>
+            <dd>@(string.IsNullOrWhiteSpace(review.Comment) ? S["ReviewsNoComment"].Value : review.Comment)</dd>
         </div>
         <div class="coffee-details-row">
-            <dt>Created at</dt>
+            <dt>@S["CreatedAt"]</dt>
             <dd>@review.CreatedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm")</dd>
         </div>
     </dl>
 
-    <form method="post" asp-page-handler="Delete" asp-route-id="@review.Id" data-confirm-message="Are you sure you want to remove this review?">
-        <button type="submit" class="coffee-danger">Delete review</button>
+    <form method="post" asp-page-handler="Delete" asp-route-id="@review.Id" data-confirm-message="@S["ConfirmDelete"]">
+        <button type="submit" class="coffee-danger">@S["ReviewsDeleteBtn"]</button>
     </form>
 </section>
 

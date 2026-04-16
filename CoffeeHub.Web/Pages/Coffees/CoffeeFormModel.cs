@@ -1,28 +1,40 @@
 using System.ComponentModel.DataAnnotations;
 using CoffeeHub.Domain.Coffee;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.Localization;
 
 namespace CoffeeHub.Web.Pages.Coffees;
 
 public class CoffeeFormModel
 {
-    [Required]
-    [StringLength(50)]
+    [Required(ErrorMessage = "ValidationRequired")]
+    [StringLength(50, ErrorMessage = "ValidationMaxLength")]
+    [Display(Name = "Barcode")]
     public string Barcode { get; set; } = string.Empty;
 
-    [Required]
-    [StringLength(200)]
+    [Required(ErrorMessage = "ValidationRequired")]
+    [StringLength(200, ErrorMessage = "ValidationMaxLength")]
+    [Display(Name = "Name")]
     public string Name { get; set; } = string.Empty;
 
-    [StringLength(2000)]
+    [StringLength(2000, ErrorMessage = "ValidationMaxLength")]
+    [Display(Name = "Description")]
     public string? Description { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "ValidationRequired")]
+    [Display(Name = "CoffeesColRoasteryId")]
     public string RoasteryId { get; set; } = string.Empty;
 
+    [Display(Name = "CoffeesOriginId")]
     public string? OriginId { get; set; }
+
+    [Display(Name = "CoffeesFarmId")]
     public string? FarmId { get; set; }
+
+    [Display(Name = "CoffeesBeanVarietyId")]
     public string? BeanVarietyId { get; set; }
+
+    [Display(Name = "CoffeesRoastLevelId")]
     public string? RoastLevelId { get; set; }
 
     public void LoadFrom(Coffee coffee)
@@ -37,7 +49,7 @@ public class CoffeeFormModel
         RoastLevelId = coffee.RoastLevelId?.ToString();
     }
 
-    public bool TryBuild(ModelStateDictionary modelState, out Coffee coffee, Guid? id = null)
+    public bool TryBuild(ModelStateDictionary modelState, IStringLocalizer<SharedResources> localizer, out Coffee coffee, Guid? id = null)
     {
         coffee = new Coffee
         {
@@ -49,7 +61,7 @@ public class CoffeeFormModel
 
         var hasErrors = false;
 
-        if (!TryParseRequiredGuid(RoasteryId, nameof(RoasteryId), "Roastery Id", modelState, out var roasteryId))
+        if (!TryParseRequiredGuid(RoasteryId, nameof(RoasteryId), "CoffeesColRoasteryId", modelState, localizer, out var roasteryId))
         {
             hasErrors = true;
         }
@@ -58,34 +70,34 @@ public class CoffeeFormModel
             coffee.RoasteryId = roasteryId;
         }
 
-        coffee.OriginId = TryParseOptionalGuid(OriginId, nameof(OriginId), "Origin Id", modelState, ref hasErrors);
-        coffee.FarmId = TryParseOptionalGuid(FarmId, nameof(FarmId), "Farm Id", modelState, ref hasErrors);
-        coffee.BeanVarietyId = TryParseOptionalGuid(BeanVarietyId, nameof(BeanVarietyId), "Bean Variety Id", modelState, ref hasErrors);
-        coffee.RoastLevelId = TryParseOptionalGuid(RoastLevelId, nameof(RoastLevelId), "Roast Level Id", modelState, ref hasErrors);
+        coffee.OriginId = TryParseOptionalGuid(OriginId, nameof(OriginId), "CoffeesOriginId", modelState, localizer, ref hasErrors);
+        coffee.FarmId = TryParseOptionalGuid(FarmId, nameof(FarmId), "CoffeesFarmId", modelState, localizer, ref hasErrors);
+        coffee.BeanVarietyId = TryParseOptionalGuid(BeanVarietyId, nameof(BeanVarietyId), "CoffeesBeanVarietyId", modelState, localizer, ref hasErrors);
+        coffee.RoastLevelId = TryParseOptionalGuid(RoastLevelId, nameof(RoastLevelId), "CoffeesRoastLevelId", modelState, localizer, ref hasErrors);
 
         return !hasErrors;
     }
 
-    private static bool TryParseRequiredGuid(string? rawValue, string key, string label, ModelStateDictionary modelState, out Guid value)
+    private static bool TryParseRequiredGuid(string? rawValue, string key, string labelKey, ModelStateDictionary modelState, IStringLocalizer<SharedResources> localizer, out Guid value)
     {
         value = Guid.Empty;
 
         if (string.IsNullOrWhiteSpace(rawValue))
         {
-            modelState.AddModelError(key, $"{label} must be informed.");
+            modelState.AddModelError(key, localizer["ValidationRequired", localizer[labelKey].Value]);
             return false;
         }
 
         if (!Guid.TryParse(rawValue.Trim(), out value))
         {
-            modelState.AddModelError(key, $"{label} must be a valid GUID.");
+            modelState.AddModelError(key, localizer["ValidationInvalidGuid", localizer[labelKey].Value]);
             return false;
         }
 
         return true;
     }
 
-    private static Guid? TryParseOptionalGuid(string? rawValue, string key, string label, ModelStateDictionary modelState, ref bool hasErrors)
+    private static Guid? TryParseOptionalGuid(string? rawValue, string key, string labelKey, ModelStateDictionary modelState, IStringLocalizer<SharedResources> localizer, ref bool hasErrors)
     {
         if (string.IsNullOrWhiteSpace(rawValue))
         {
@@ -97,7 +109,7 @@ public class CoffeeFormModel
             return parsedValue;
         }
 
-        modelState.AddModelError(key, $"{label} must be a valid GUID.");
+        modelState.AddModelError(key, localizer["ValidationInvalidGuid", localizer[labelKey].Value]);
         hasErrors = true;
         return null;
     }

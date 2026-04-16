@@ -1,73 +1,70 @@
 @page
 @model CoffeeHub.Web.Pages.Account.RegisterModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = S["RegisterFormHeading"].Value;
 }
 
 <section class="auth-shell">
     <div class="auth-panel auth-panel-brand">
-        <span class="auth-kicker">Join CoffeeHub</span>
-        <h1>Create your tasting workspace and start shaping your coffee catalog.</h1>
-        <p>
-            Register your first account to begin organizing coffees, reviews,
-            recipes, and brewing notes in one place.
-        </p>
+        <span class="auth-kicker">@S["RegisterKicker"]</span>
+        <h1>@S["RegisterHeading"]</h1>
+        <p>@S["RegisterDesc"]</p>
 
         <div class="auth-highlights">
             <div>
-                <strong>Build your profile</strong>
-                <span>Create a personal identity for your future reviews and recipes.</span>
+                <strong>@S["RegisterHighlightProfileTitle"]</strong>
+                <span>@S["RegisterHighlightProfileDesc"]</span>
             </div>
             <div>
-                <strong>Start simple</strong>
-                <span>This first registration flow is intentionally lean and practical.</span>
+                <strong>@S["RegisterHighlightSimpleTitle"]</strong>
+                <span>@S["RegisterHighlightSimpleDesc"]</span>
             </div>
             <div>
-                <strong>Grow later</strong>
-                <span>Social and richer profile features can be added on top of this base.</span>
+                <strong>@S["RegisterHighlightGrowTitle"]</strong>
+                <span>@S["RegisterHighlightGrowDesc"]</span>
             </div>
         </div>
     </div>
 
     <div class="auth-panel auth-panel-form">
         <div class="auth-form-header">
-            <span class="auth-badge">New account</span>
-            <h2>Register</h2>
-            <p>Create a local account backed by the PostgreSQL database.</p>
+            <span class="auth-badge">@S["RegisterBadge"]</span>
+            <h2>@S["RegisterFormHeading"]</h2>
+            <p>@S["RegisterFormDesc"]</p>
         </div>
 
         <form method="post" class="auth-form" novalidate>
             <div asp-validation-summary="ModelOnly" class="validation-summary-errors"></div>
 
             <label class="auth-field">
-                <span>Name</span>
-                <input asp-for="Input.Name" class="form-control auth-input" placeholder="Your name" />
+                <span>@S["Name"]</span>
+                <input asp-for="Input.Name" class="form-control auth-input" placeholder="@S["RegisterNamePlaceholder"]" />
                 <span asp-validation-for="Input.Name" class="text-danger small"></span>
             </label>
 
             <label class="auth-field">
-                <span>Email</span>
-                <input asp-for="Input.Email" class="form-control auth-input" placeholder="you@coffeehub.dev" />
+                <span>@S["Email"]</span>
+                <input asp-for="Input.Email" class="form-control auth-input" placeholder="@S["RegisterEmailPlaceholder"]" />
                 <span asp-validation-for="Input.Email" class="text-danger small"></span>
             </label>
 
             <label class="auth-field">
-                <span>Password</span>
-                <input asp-for="Input.Password" class="form-control auth-input" placeholder="Create a password" />
+                <span>@S["Password"]</span>
+                <input asp-for="Input.Password" class="form-control auth-input" placeholder="@S["RegisterPasswordPlaceholder"]" />
                 <span asp-validation-for="Input.Password" class="text-danger small"></span>
             </label>
 
             <label class="auth-field">
-                <span>Confirm password</span>
-                <input asp-for="Input.ConfirmPassword" class="form-control auth-input" placeholder="Repeat your password" />
+                <span>@S["ConfirmPassword"]</span>
+                <input asp-for="Input.ConfirmPassword" class="form-control auth-input" placeholder="@S["RegisterConfirmPlaceholder"]" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger small"></span>
             </label>
 
-            <button type="submit" class="auth-submit">Create account</button>
+            <button type="submit" class="auth-submit">@S["RegisterSubmit"]</button>
 
             <p class="auth-helper">
-                Already registered?
-                <a asp-page="/Account/Login">Go to login</a>
+                @S["RegisterAlreadyRegistered"]
+                <a asp-page="/Account/Login">@S["RegisterGoToLogin"]</a>
             </p>
         </form>
     </div>

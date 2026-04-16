@@ -1,31 +1,31 @@
 @page
 @model CoffeeHub.Web.Pages.Reviews.IndexModel
 @{
-    ViewData["Title"] = "My Reviews";
+    ViewData["Title"] = S["ReviewsIndexHeading"].Value;
 }
 
-<h2>My Reviews</h2>
+<h2>@S["ReviewsIndexHeading"]</h2>
 
 @if (!Model.Reviews.Any())
 {
-    <p class="text-muted">You haven't written any reviews yet.</p>
+    <p class="text-muted">@S["ReviewsEmptyDesc"]</p>
 }
 else
 {
     <table class="table">
         <thead>
             <tr>
-                <th>Coffee</th>
-                <th>Rating</th>
-                <th>Comment</th>
-                <th>Date</th>
+                <th>@S["ReviewsColCoffee"]</th>
+                <th>@S["ReviewsColRating"]</th>
+                <th>@S["ReviewsColComment"]</th>
+                <th>@S["ReviewsColDate"]</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var review in Model.Reviews)
             {
                 <tr>
-                    <td>@(review.Coffee?.Name ?? "Unknown")</td>
+                    <td>@(review.Coffee?.Name ?? S["Unknown"].Value)</td>
                     <td>@review.Rating / 5</td>
                     <td>@(review.Comment ?? "-")</td>
                     <td>@review.CreatedAt.ToString("MMM dd, yyyy")</td>

@@ -1,12 +1,12 @@
 @page "{id:guid}"
 @model CoffeeHub.Web.Pages.Roasteries.DetailsModel
 @{
-    ViewData["Title"] = "Roastery details";
+    ViewData["Title"] = S["Roastery"].Value;
     var roastery = Model.Roastery!;
     var breadcrumbs = new[]
     {
-        ("Home", "/Home/Index"),
-        ("Roasteries", "/Roasteries/Index"),
+        (S["Home"].Value, "/Home/Index"),
+        (S["Roasteries"].Value, "/Roasteries/Index"),
         (roastery.Name, null)
     };
 }
@@ -15,19 +15,19 @@
 
 <section class="coffee-page-header">
     <div>
-        <span class="home-card-label">Reference data</span>
+        <span class="home-card-label">@S["OriginsReferenceLabel"]</span>
         <h1>@roastery.Name</h1>
-        <p>@(string.IsNullOrWhiteSpace(roastery.Description) ? "No description provided." : roastery.Description)</p>
+        <p>@(string.IsNullOrWhiteSpace(roastery.Description) ? S["RoasteriesNoDesc"].Value : roastery.Description)</p>
     </div>
     <div class="coffee-page-actions">
-        <a class="coffee-link-button" asp-page="/Roasteries/Index">Back to roasteries</a>
+        <a class="coffee-link-button" asp-page="/Roasteries/Index">@S["RoasteriesBackBtn"]</a>
     </div>
 </section>
 
 <section class="coffee-card-shell mb-4">
     <dl class="coffee-details-grid">
         <div class="coffee-details-row">
-            <dt>Website</dt>
+            <dt>@S["RoasteriesColWebsite"]</dt>
             <dd>
                 @if (string.IsNullOrWhiteSpace(roastery.WebsiteUrl))
                 {
@@ -40,7 +40,7 @@
             </dd>
         </div>
         <div class="coffee-details-row">
-            <dt>Instagram</dt>
+            <dt>@S["RoasteriesColInstagram"]</dt>
             <dd>@(string.IsNullOrWhiteSpace(roastery.InstagramUrl) ? "-" : roastery.InstagramUrl)</dd>
         </div>
     </dl>
@@ -48,15 +48,15 @@
 
 <section class="coffee-page-header">
     <div>
-        <span class="home-card-label">Catalog</span>
-        <h2>Coffees from this roastery</h2>
+        <span class="home-card-label">@S["Catalog"]</span>
+        <h2>@S["RoasteriesFromThisRoastery"]</h2>
     </div>
 </section>
 
 @if (Model.PagedCoffees.Items.Count == 0)
 {
     <section class="coffee-empty">
-        <h3>No coffees linked to this roastery yet.</h3>
+        <h3>@S["RoasteriesNoCoffeesLinked"]</h3>
     </section>
 }
 else
@@ -65,10 +65,10 @@ else
         <table class="coffee-table">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Barcode</th>
-                    <th>Origin</th>
-                    <th>Actions</th>
+                    <th>@S["Name"]</th>
+                    <th>@S["Barcode"]</th>
+                    <th>@S["RoasteriesColOrigin"]</th>
+                    <th>@S["Actions"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -77,9 +77,9 @@ else
                     <tr>
                         <td>@coffee.Name</td>
                         <td>@coffee.Barcode</td>
-                        <td>@(coffee.Origin?.Country ?? "Not informed")</td>
+                        <td>@(coffee.Origin?.Country ?? S["NotInformed"].Value)</td>
                         <td>
-                            <a class="coffee-link-button" asp-page="/Coffees/Details" asp-route-id="@coffee.Id">Details</a>
+                            <a class="coffee-link-button" asp-page="/Coffees/Details" asp-route-id="@coffee.Id">@S["Details"]</a>
                         </td>
                     </tr>
                 }
@@ -94,7 +94,7 @@ else
                 @if (Model.PagedCoffees.HasPreviousPage)
                 {
                     <li class="page-item">
-                        <a class="page-link" asp-page="/Roasteries/Details" asp-route-id="@roastery.Id" asp-route-page="@(Model.PagedCoffees.Page - 1)">Previous</a>
+                        <a class="page-link" asp-page="/Roasteries/Details" asp-route-id="@roastery.Id" asp-route-page="@(Model.PagedCoffees.Page - 1)">@S["Previous"]</a>
                     </li>
                 }
                 @for (var coffeePg = 1; coffeePg <= Model.PagedCoffees.TotalPages; coffeePg++)
@@ -106,7 +106,7 @@ else
                 @if (Model.PagedCoffees.HasNextPage)
                 {
                     <li class="page-item">
-                        <a class="page-link" asp-page="/Roasteries/Details" asp-route-id="@roastery.Id" asp-route-page="@(Model.PagedCoffees.Page + 1)">Next</a>
+                        <a class="page-link" asp-page="/Roasteries/Details" asp-route-id="@roastery.Id" asp-route-page="@(Model.PagedCoffees.Page + 1)">@S["Next"]</a>
                     </li>
                 }
             </ul>

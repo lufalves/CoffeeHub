@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
+using Microsoft.Extensions.Localization;
+
 namespace CoffeeHub.Web.Pages.Coffees;
 
 [Authorize]
-public class EditModel(ICoffeeService coffeeService) : PageModel
+public class EditModel(ICoffeeService coffeeService, IStringLocalizer<SharedResources> localizer) : PageModel
 {
     [BindProperty]
     public CoffeeFormModel Input { get; set; } = new();
@@ -31,7 +33,7 @@ public class EditModel(ICoffeeService coffeeService) : PageModel
             return Page();
         }
 
-        if (!Input.TryBuild(ModelState, out var coffee, id))
+        if (!Input.TryBuild(ModelState, localizer, out var coffee, id))
         {
             return Page();
         }

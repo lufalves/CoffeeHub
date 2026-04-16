@@ -261,37 +261,43 @@ public class IndexModel(IUserService userService) : PageModel
 
     public class ProfileInputModel
     {
-        [Required]
-        [StringLength(150)]
+        [Required(ErrorMessage = "ValidationRequired")]
+        [StringLength(150, ErrorMessage = "ValidationMaxLength")]
+        [Display(Name = "Name")]
         public string Name { get; set; } = string.Empty;
 
-        [Required]
-        [EmailAddress]
-        [StringLength(320)]
+        [Required(ErrorMessage = "ValidationRequired")]
+        [EmailAddress(ErrorMessage = "ValidationEmail")]
+        [StringLength(320, ErrorMessage = "ValidationMaxLength")]
+        [Display(Name = "Email")]
         public string Email { get; set; } = string.Empty;
     }
 
     public class AvatarInputModel
     {
-        [Url]
-        [StringLength(500)]
+        [Url(ErrorMessage = "ValidationUrl")]
+        [StringLength(500, ErrorMessage = "ValidationMaxLength")]
+        [Display(Name = "AvatarUrl")]
         public string? AvatarUrl { get; set; }
     }
 
     public class PasswordInputModel
     {
-        [Required]
+        [Required(ErrorMessage = "ValidationRequired")]
         [DataType(DataType.Password)]
+        [Display(Name = "CurrentPassword")]
         public string CurrentPassword { get; set; } = string.Empty;
 
-        [Required]
+        [Required(ErrorMessage = "ValidationRequired")]
         [DataType(DataType.Password)]
-        [MinLength(6)]
+        [MinLength(6, ErrorMessage = "ValidationMinLength")]
+        [Display(Name = "NewPassword")]
         public string NewPassword { get; set; } = string.Empty;
 
-        [Required]
+        [Required(ErrorMessage = "ValidationRequired")]
         [DataType(DataType.Password)]
-        [Compare(nameof(NewPassword))]
+        [Compare(nameof(NewPassword), ErrorMessage = "ValidationCompare")]
+        [Display(Name = "ConfirmPassword")]
         public string ConfirmPassword { get; set; } = string.Empty;
     }
 }

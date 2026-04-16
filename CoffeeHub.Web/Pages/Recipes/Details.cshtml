@@ -1,12 +1,12 @@
 @page "{id:guid}"
 @model CoffeeHub.Web.Pages.Recipes.DetailsModel
 @{
-    ViewData["Title"] = "Recipe details";
+    ViewData["Title"] = S["RecipesDetailsDesc"].Value;
     var recipe = Model.Recipe!;
     var breadcrumbs = new[]
     {
-        ("Home", "/Home/Index"),
-        ("Recipes", "/Recipes/Index"),
+        (S["Home"].Value, "/Home/Index"),
+        (S["Recipes"].Value, "/Recipes/Index"),
         (recipe.Title, null)
     };
 }
@@ -15,13 +15,13 @@
 
 <section class="coffee-page-header">
     <div>
-        <span class="home-card-label">Recipe library</span>
+        <span class="home-card-label">@S["RecipesLibraryLabel"]</span>
         <h1>@recipe.Title</h1>
-        <p>Review the complete recipe and brewing parameters.</p>
+        <p>@S["RecipesDetailsDesc"]</p>
     </div>
     <div class="coffee-page-actions">
-        <a class="coffee-link-button" asp-page="/Recipes/Index">Back to list</a>
-        <a class="coffeehub-nav-button" asp-page="/Recipes/Edit" asp-route-id="@recipe.Id">Edit recipe</a>
+        <a class="coffee-link-button" asp-page="/Recipes/Index">@S["BackToList"]</a>
+        <a class="coffeehub-nav-button" asp-page="/Recipes/Edit" asp-route-id="@recipe.Id">@S["RecipesEditBtn"]</a>
     </div>
 </section>
 
@@ -33,40 +33,40 @@
 <section class="coffee-card-shell">
     <dl class="coffee-details-grid">
         <div class="coffee-details-row">
-            <dt>Coffee</dt>
+            <dt>@S["Coffee"]</dt>
             <dd>@(recipe.Coffee?.Name ?? recipe.CoffeeId.ToString())</dd>
         </div>
         <div class="coffee-details-row">
-            <dt>Brewing method</dt>
+            <dt>@S["RecipesBrewingMethod"]</dt>
             <dd>@(recipe.BrewingMethod?.Name ?? recipe.BrewingMethodId.ToString())</dd>
         </div>
         <div class="coffee-details-row">
-            <dt>Description</dt>
-            <dd>@(string.IsNullOrWhiteSpace(recipe.Description) ? "No description provided." : recipe.Description)</dd>
+            <dt>@S["Description"]</dt>
+            <dd>@(string.IsNullOrWhiteSpace(recipe.Description) ? S["RecipesNoDescProvided"].Value : recipe.Description)</dd>
         </div>
         <div class="coffee-details-row">
-            <dt>Coffee amount</dt>
+            <dt>@S["RecipesCoffeeAmount"]</dt>
             <dd>@(recipe.CoffeeAmountInGrams?.ToString("0.##") ?? "-") g</dd>
         </div>
         <div class="coffee-details-row">
-            <dt>Water amount</dt>
+            <dt>@S["RecipesWaterAmount"]</dt>
             <dd>@(recipe.WaterAmountInMilliliters?.ToString("0.##") ?? "-") ml</dd>
         </div>
         <div class="coffee-details-row">
-            <dt>Brew time</dt>
+            <dt>@S["RecipesBrewTime"]</dt>
             <dd>@(recipe.BrewTimeInSeconds?.ToString() ?? "-") s</dd>
         </div>
         <div class="coffee-details-row">
-            <dt>Instructions</dt>
-            <dd>@(string.IsNullOrWhiteSpace(recipe.Instructions) ? "No instructions provided." : recipe.Instructions)</dd>
+            <dt>@S["RecipesInstructions"]</dt>
+            <dd>@(string.IsNullOrWhiteSpace(recipe.Instructions) ? S["RecipesNoInstructions"].Value : recipe.Instructions)</dd>
         </div>
         <div class="coffee-details-row">
-            <dt>Created at</dt>
+            <dt>@S["CreatedAt"]</dt>
             <dd>@recipe.CreatedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm")</dd>
         </div>
     </dl>
 
-    <form method="post" asp-page-handler="Delete" asp-route-id="@recipe.Id" data-confirm-message="Are you sure you want to remove this recipe?">
-        <button type="submit" class="coffee-danger">Delete recipe</button>
+    <form method="post" asp-page-handler="Delete" asp-route-id="@recipe.Id" data-confirm-message="@S["ConfirmDelete"]">
+        <button type="submit" class="coffee-danger">@S["RecipesDeleteBtn"]</button>
     </form>
 </section>
