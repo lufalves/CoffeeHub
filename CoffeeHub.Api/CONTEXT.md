@@ -8,7 +8,7 @@ Entry point via pure RESTful API HTTP exposure. Isolated for third parties, mobi
 
 ## Setup and Core
 - Routes `Controllers` mapping pure base HTTP methods (GET, POST, PUT, DELETE).
-- **JWT Middleware**: Guarded authentication using `Bearer` scheme. Requires a valid token. Annotations via `[Authorize]` handle role-based access (Admin/User).
+- **JWT Middleware**: Guarded authentication using `Bearer` scheme. Requires a valid token. Annotations via `[Authorize]` handle role-based access (Admin/User). Time management relies organically on the .NET 8 `TimeProvider` standard interface, strictly deprecating manual `ISystemClock` injections.
 - **Global Error Handling (`Middleware/`)**: Captures exceptions directly and logs requests in internal global handlers, shielding stack traces and 5xx errors from leaking to the public web.
 
 ## Featured Endpoints (`/Controllers`)

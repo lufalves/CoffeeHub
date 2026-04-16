@@ -118,7 +118,7 @@ The project already has:
 - Seed data for reference tables
 
 ### Testing
-- xUnit tests for UserService, CoffeeService, and AuthService
+- xUnit v3 framework for UserService, CoffeeService, and AuthService (strictly scoped via explicit CancellationToken passing for deadlock prevention)
 - Test data builders and fake repositories
 - Integration test infrastructure with PostgreSQL
 - coverlet for code coverage
