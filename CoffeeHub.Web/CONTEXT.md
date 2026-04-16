@@ -15,6 +15,7 @@ Full-stack monolithic frontend embedded application running via **ASP.NET Core R
 ## Auth and Security
 - Local engine focused on `Cookie Authentication` middleware in `/Security`. Authenticators are injected in the Login Pipeline with clean cookie dismantling on logout.
 - Root redirection `/` routes straight to the Login Page, blocking anonymous visitors from accessing the feeds.
+- **CSRF Protection:** Anti-forgery tokens are strictly enforced at the Page and Form level. Handlers (`OnPostXXX`) cannot individually bypass tokens using `[IgnoreAntiforgeryToken]`; therefore, all AJAX mutations require explicit token submission via request verification headers to avoid compilation and security blocks.
 
 ## Internationalization (i18n Localization)
 - Translation Base: Primary implementation for English (Default) and PT-BR mapped in the `Resources/` block.

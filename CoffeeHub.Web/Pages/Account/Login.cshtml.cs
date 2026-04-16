@@ -83,7 +83,6 @@ public class LoginModel(
     }
 
     // Handler for extending session via AJAX
-    [IgnoreAntiforgeryToken] // For AJAX calls, we'll handle validation differently
     public IActionResult OnPostExtendSession()
     {
         // This endpoint just needs to be hit to reset the session sliding expiration
