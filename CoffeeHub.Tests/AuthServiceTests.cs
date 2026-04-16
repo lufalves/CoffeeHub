@@ -14,7 +14,7 @@ public class AuthServiceTests : ServiceTestBase
         var userRepository = new FakeAuthUserRepository();
         var service = new AuthService(userRepository, new FakePasswordHashService(), Logger<AuthService>());
 
-        var user = await service.RegisterAsync("Admin User", "admin@coffeehub.dev", "Password123!");
+        var user = await service.RegisterAsync("Admin User", "admin@coffeehub.dev", "Password123!", cancellationToken: TestContext.Current.CancellationToken);
 
         Assert.Equal("Admin", user.Role);
         Assert.Single(userRepository.Users);
@@ -27,7 +27,7 @@ public class AuthServiceTests : ServiceTestBase
         userRepository.Users.Add(new TestUserBuilder().WithRole("Admin").Build());
 
         var service = new AuthService(userRepository, new FakePasswordHashService(), Logger<AuthService>());
-        var user = await service.RegisterAsync("Regular User", "user@coffeehub.dev", "Password123!");
+        var user = await service.RegisterAsync("Regular User", "user@coffeehub.dev", "Password123!", cancellationToken: TestContext.Current.CancellationToken);
 
         Assert.Equal("User", user.Role);
     }
@@ -41,7 +41,7 @@ public class AuthServiceTests : ServiceTestBase
         var service = new AuthService(userRepository, new FakePasswordHashService(), Logger<AuthService>());
 
         await Assert.ThrowsAsync<InvalidOperationException>(() =>
-            service.RegisterAsync("Another User", "existing@coffeehub.dev", "Password123!"));
+            service.RegisterAsync("Another User", "existing@coffeehub.dev", "Password123!", cancellationToken: TestContext.Current.CancellationToken));
     }
 
     [Theory]
@@ -53,7 +53,7 @@ public class AuthServiceTests : ServiceTestBase
         var service = CreateService();
 
         await Assert.ThrowsAsync<ArgumentException>(() =>
-            service.RegisterAsync(name!, "test@coffeehub.dev", "Password123!"));
+            service.RegisterAsync(name!, "test@coffeehub.dev", "Password123!", cancellationToken: TestContext.Current.CancellationToken));
     }
 
     [Fact]
@@ -63,7 +63,7 @@ public class AuthServiceTests : ServiceTestBase
         var name = new string('N', 151);
 
         await Assert.ThrowsAsync<ArgumentException>(() =>
-            service.RegisterAsync(name, "test@coffeehub.dev", "Password123!"));
+            service.RegisterAsync(name, "test@coffeehub.dev", "Password123!", cancellationToken: TestContext.Current.CancellationToken));
     }
 
     [Theory]
@@ -77,7 +77,7 @@ public class AuthServiceTests : ServiceTestBase
         var service = CreateService();
 
         await Assert.ThrowsAsync<ArgumentException>(() =>
-            service.RegisterAsync("Valid Name", email!, "Password123!"));
+            service.RegisterAsync("Valid Name", email!, "Password123!", cancellationToken: TestContext.Current.CancellationToken));
     }
 
     [Fact]
@@ -87,7 +87,7 @@ public class AuthServiceTests : ServiceTestBase
         var email = $"{new string('a', 312)}@mail.com";
 
         await Assert.ThrowsAsync<ArgumentException>(() =>
-            service.RegisterAsync("Valid Name", email, "Password123!"));
+            service.RegisterAsync("Valid Name", email, "Password123!", cancellationToken: TestContext.Current.CancellationToken));
     }
 
     [Theory]
@@ -100,7 +100,7 @@ public class AuthServiceTests : ServiceTestBase
         var service = CreateService();
 
         await Assert.ThrowsAsync<ArgumentException>(() =>
-            service.RegisterAsync("Valid Name", "test@coffeehub.dev", password!));
+            service.RegisterAsync("Valid Name", "test@coffeehub.dev", password!, cancellationToken: TestContext.Current.CancellationToken));
     }
 
     [Fact]
@@ -115,7 +115,7 @@ public class AuthServiceTests : ServiceTestBase
 
         var service = new AuthService(userRepository, new FakePasswordHashService(), Logger<AuthService>());
 
-        var user = await service.ValidateCredentialsAsync("login@coffeehub.dev", "Password123!");
+        var user = await service.ValidateCredentialsAsync("login@coffeehub.dev", "Password123!", TestContext.Current.CancellationToken);
 
         Assert.NotNull(user);
         Assert.Equal("login@coffeehub.dev", user.Email);
@@ -133,7 +133,7 @@ public class AuthServiceTests : ServiceTestBase
 
         var service = new AuthService(userRepository, new FakePasswordHashService(), Logger<AuthService>());
 
-        var user = await service.ValidateCredentialsAsync("login@coffeehub.dev", "WrongPassword123!");
+        var user = await service.ValidateCredentialsAsync("login@coffeehub.dev", "WrongPassword123!", TestContext.Current.CancellationToken);
 
         Assert.Null(user);
     }
@@ -143,7 +143,7 @@ public class AuthServiceTests : ServiceTestBase
     {
         var service = CreateService();
 
-        var user = await service.ValidateCredentialsAsync("missing@coffeehub.dev", "Password123!");
+        var user = await service.ValidateCredentialsAsync("missing@coffeehub.dev", "Password123!", TestContext.Current.CancellationToken);
 
         Assert.Null(user);
     }
@@ -158,7 +158,7 @@ public class AuthServiceTests : ServiceTestBase
         var service = CreateService();
 
         await Assert.ThrowsAsync<ArgumentException>(() =>
-            service.ValidateCredentialsAsync(email!, password!));
+            service.ValidateCredentialsAsync(email!, password!, TestContext.Current.CancellationToken));
     }
 
     private static AuthService CreateService()

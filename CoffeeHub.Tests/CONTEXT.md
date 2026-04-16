@@ -7,7 +7,8 @@
 Unified test stack wrapping continuous assertions base for the `Application` flow down into solid `Infrastructure` connections.
 
 ## Core Tooling
-- Engine based on **`xUnit`**. Standard C# libraries via `Microsoft.NET.Test.Sdk`.
+- Engine based on **`xUnit v3`**. Standard C# testing via `Microsoft.NET.Test.Sdk` accompanied by the mandatory `xunit.runner.visualstudio` for optimal `dotnet test` discovery.
+- **Strict Async Safety (`xUnit1051`)**: Test functions utilizing asynchronous methods must explicitly bypass `default` parameter omissions by passing `TestContext.Current.CancellationToken` to avoid deadlocking the test runner blockings.
 - Coverage engine mapped natively by `coverlet.collector` with manual min-target percent setup on runsettings (Targeting typically an 80% baseline).
 
 ## Internal Structure Patterns

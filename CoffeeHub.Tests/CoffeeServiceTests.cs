@@ -22,7 +22,7 @@ public class CoffeeServiceTests
             Description = "Floral and citrus"
         };
 
-        var createdCoffee = await service.CreateAsync(coffee);
+        var createdCoffee = await service.CreateAsync(coffee, TestContext.Current.CancellationToken);
 
         Assert.Same(coffee, createdCoffee);
         Assert.Same(coffee, repository.AddedCoffee);
@@ -41,7 +41,7 @@ public class CoffeeServiceTests
             RoasteryId = Guid.Empty
         };
 
-        await Assert.ThrowsAsync<ArgumentException>(() => service.CreateAsync(coffee));
+        await Assert.ThrowsAsync<ArgumentException>(() => service.CreateAsync(coffee, TestContext.Current.CancellationToken));
     }
 
     [Fact]
@@ -56,7 +56,7 @@ public class CoffeeServiceTests
             Barcode = "7891000100103",
             Name = "Coffee",
             RoasteryId = Guid.NewGuid()
-        });
+        }, TestContext.Current.CancellationToken);
 
         Assert.Null(result);
         Assert.Null(repository.UpdatedCoffee);
@@ -87,7 +87,7 @@ public class CoffeeServiceTests
             Name = "New Coffee",
             RoasteryId = existingCoffee.RoasteryId,
             Description = "Updated description"
-        });
+        }, TestContext.Current.CancellationToken);
 
         Assert.NotNull(result);
         Assert.Equal("New Coffee", existingCoffee.Name);
@@ -101,7 +101,7 @@ public class CoffeeServiceTests
         var repository = new FakeCoffeeRepository();
         var service = new CoffeeService(repository, NullLogger<CoffeeService>.Instance);
 
-        var result = await service.SoftDeleteAsync(Guid.NewGuid());
+        var result = await service.SoftDeleteAsync(Guid.NewGuid(), TestContext.Current.CancellationToken);
 
         Assert.False(result);
         Assert.Null(repository.SoftDeletedCoffeeId);
@@ -125,7 +125,7 @@ public class CoffeeServiceTests
 
         var service = new CoffeeService(repository, NullLogger<CoffeeService>.Instance);
 
-        var result = await service.SoftDeleteAsync(existingCoffee.Id);
+        var result = await service.SoftDeleteAsync(existingCoffee.Id, TestContext.Current.CancellationToken);
 
         Assert.True(result);
         Assert.Equal(existingCoffee.Id, repository.SoftDeletedCoffeeId);
@@ -154,7 +154,7 @@ public class CoffeeServiceTests
             RoasteryId = Guid.NewGuid()
         };
 
-        await Assert.ThrowsAsync<InvalidOperationException>(() => service.CreateAsync(coffee));
+        await Assert.ThrowsAsync<InvalidOperationException>(() => service.CreateAsync(coffee, TestContext.Current.CancellationToken));
     }
 
     [Fact]
@@ -170,7 +170,7 @@ public class CoffeeServiceTests
             RoasteryId = Guid.NewGuid()
         };
 
-        await Assert.ThrowsAsync<ArgumentException>(() => service.CreateAsync(coffee));
+        await Assert.ThrowsAsync<ArgumentException>(() => service.CreateAsync(coffee, TestContext.Current.CancellationToken));
     }
 
     private sealed class FakeCoffeeRepository : ICoffeeRepository

@@ -22,7 +22,7 @@ public class UserServiceTests
             PasswordHash = "hash"
         };
 
-        var createdUser = await service.CreateAsync(user);
+        var createdUser = await service.CreateAsync(user, TestContext.Current.CancellationToken);
 
         Assert.Same(user, createdUser);
         Assert.Same(user, repository.AddedUser);
@@ -51,7 +51,7 @@ public class UserServiceTests
             PasswordHash = "another-hash"
         };
 
-        await Assert.ThrowsAsync<InvalidOperationException>(() => service.CreateAsync(user));
+        await Assert.ThrowsAsync<InvalidOperationException>(() => service.CreateAsync(user, TestContext.Current.CancellationToken));
     }
 
     [Fact]
@@ -67,7 +67,7 @@ public class UserServiceTests
             PasswordHash = "hash"
         };
 
-        await Assert.ThrowsAsync<ArgumentException>(() => service.CreateAsync(user));
+        await Assert.ThrowsAsync<ArgumentException>(() => service.CreateAsync(user, TestContext.Current.CancellationToken));
     }
 
     [Fact]
@@ -82,7 +82,7 @@ public class UserServiceTests
             Name = "Lucas",
             Email = "lucas@coffeehub.dev",
             PasswordHash = "hash"
-        });
+        }, TestContext.Current.CancellationToken);
 
         Assert.Null(result);
         Assert.Null(repository.UpdatedUser);
@@ -113,7 +113,7 @@ public class UserServiceTests
             Email = "new@coffeehub.dev",
             PasswordHash = "new-hash",
             AvatarUrl = "https://coffeehub.dev/avatar.png"
-        });
+        }, TestContext.Current.CancellationToken);
 
         Assert.NotNull(result);
         Assert.Equal("New Name", existingUser.Name);
@@ -127,7 +127,7 @@ public class UserServiceTests
         var repository = new FakeUserRepository();
         var service = new UserService(repository, new FakePasswordHashService(), NullLogger<UserService>.Instance);
 
-        var result = await service.SoftDeleteAsync(Guid.NewGuid());
+        var result = await service.SoftDeleteAsync(Guid.NewGuid(), TestContext.Current.CancellationToken);
 
         Assert.False(result);
         Assert.Null(repository.SoftDeletedUserId);
@@ -151,7 +151,7 @@ public class UserServiceTests
 
         var service = new UserService(repository, new FakePasswordHashService(), NullLogger<UserService>.Instance);
 
-        var result = await service.SoftDeleteAsync(existingUser.Id);
+        var result = await service.SoftDeleteAsync(existingUser.Id, TestContext.Current.CancellationToken);
 
         Assert.True(result);
         Assert.Equal(existingUser.Id, repository.SoftDeletedUserId);
@@ -175,7 +175,7 @@ public class UserServiceTests
 
         var service = new UserService(repository, new FakePasswordHashService(), NullLogger<UserService>.Instance);
 
-        var result = await service.UpdateProfileAsync(existingUser.Id, "New Name", "NewMail@CoffeeHub.Dev");
+        var result = await service.UpdateProfileAsync(existingUser.Id, "New Name", "NewMail@CoffeeHub.Dev", TestContext.Current.CancellationToken);
 
         Assert.NotNull(result);
         Assert.Equal("New Name", existingUser.Name);
@@ -202,7 +202,7 @@ public class UserServiceTests
 
         var service = new UserService(repository, new FakePasswordHashService(), NullLogger<UserService>.Instance);
 
-        var result = await service.UpdateAvatarAsync(existingUser.Id, " ");
+        var result = await service.UpdateAvatarAsync(existingUser.Id, " ", TestContext.Current.CancellationToken);
 
         Assert.NotNull(result);
         Assert.Null(existingUser.AvatarUrl);
@@ -227,7 +227,7 @@ public class UserServiceTests
 
         var service = new UserService(repository, new FakePasswordHashService(), NullLogger<UserService>.Instance);
 
-        var changed = await service.ChangePasswordAsync(existingUser.Id, "current-password", "new-password");
+        var changed = await service.ChangePasswordAsync(existingUser.Id, "current-password", "new-password", TestContext.Current.CancellationToken);
 
         Assert.True(changed);
         Assert.Equal("hashed:new-password", existingUser.PasswordHash);
@@ -252,7 +252,7 @@ public class UserServiceTests
 
         var service = new UserService(repository, new FakePasswordHashService(), NullLogger<UserService>.Instance);
 
-        await Assert.ThrowsAsync<InvalidOperationException>(() => service.ChangePasswordAsync(existingUser.Id, "wrong-password", "new-password"));
+        await Assert.ThrowsAsync<InvalidOperationException>(() => service.ChangePasswordAsync(existingUser.Id, "wrong-password", "new-password", TestContext.Current.CancellationToken));
     }
 
     private sealed class FakeUserRepository : IUserRepository
