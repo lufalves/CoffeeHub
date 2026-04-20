@@ -146,6 +146,12 @@ public sealed class TestRecipeBuilder
         return this;
     }
 
+    public TestRecipeBuilder WithBrewingMethodId(Guid brewingMethodId)
+    {
+        _recipe.BrewingMethodId = brewingMethodId;
+        return this;
+    }
+
     public Recipe Build() => _recipe;
 }
 

@@ -1,19 +1,17 @@
-using CoffeeHub.Application.Common;
-using CoffeeHub.Application.Interfaces;
 using CoffeeHub.Application.Services;
+using CoffeeHub.Tests.Common;
+using CoffeeHub.Tests.Fakes;
 using CoffeeHub.Domain.User;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace CoffeeHub.Tests;
 
-public class UserServiceTests
+public class UserServiceTests : ServiceTestBase
 {
     [Fact]
     public async Task CreateAsync_ShouldCreateUser_WhenDataIsValid()
     {
-        var repository = new FakeUserRepository();
-        var service = new UserService(repository, new FakePasswordHashService(), NullLogger<UserService>.Instance);
+        var repository = new FakeAuthUserRepository();
+        var service = new UserService(repository, new FakePasswordHashService(), Logger<UserService>());
 
         var user = new User
         {
@@ -25,24 +23,22 @@ public class UserServiceTests
         var createdUser = await service.CreateAsync(user, TestContext.Current.CancellationToken);
 
         Assert.Same(user, createdUser);
-        Assert.Same(user, repository.AddedUser);
+        Assert.Contains(user, repository.Users);
     }
 
     [Fact]
     public async Task CreateAsync_ShouldThrow_WhenEmailAlreadyExists()
     {
-        var repository = new FakeUserRepository
+        var repository = new FakeAuthUserRepository();
+        repository.Users.Add(new User
         {
-            UserByEmail = new User
-            {
-                Id = Guid.NewGuid(),
-                Name = "Existing User",
-                Email = "existing@coffeehub.dev",
-                PasswordHash = "hash"
-            }
-        };
+            Id = Guid.NewGuid(),
+            Name = "Existing User",
+            Email = "existing@coffeehub.dev",
+            PasswordHash = "hash"
+        });
 
-        var service = new UserService(repository, new FakePasswordHashService(), NullLogger<UserService>.Instance);
+        var service = new UserService(repository, new FakePasswordHashService(), Logger<UserService>());
 
         var user = new User
         {
@@ -57,8 +53,8 @@ public class UserServiceTests
     [Fact]
     public async Task CreateAsync_ShouldThrow_WhenNameIsEmpty()
     {
-        var repository = new FakeUserRepository();
-        var service = new UserService(repository, new FakePasswordHashService(), NullLogger<UserService>.Instance);
+        var repository = new FakeAuthUserRepository();
+        var service = new UserService(repository, new FakePasswordHashService(), Logger<UserService>());
 
         var user = new User
         {
@@ -73,8 +69,8 @@ public class UserServiceTests
     [Fact]
     public async Task UpdateAsync_ShouldReturnNull_WhenUserDoesNotExist()
     {
-        var repository = new FakeUserRepository();
-        var service = new UserService(repository, new FakePasswordHashService(), NullLogger<UserService>.Instance);
+        var repository = new FakeAuthUserRepository();
+        var service = new UserService(repository, new FakePasswordHashService(), Logger<UserService>());
 
         var result = await service.UpdateAsync(new User
         {
@@ -85,7 +81,7 @@ public class UserServiceTests
         }, TestContext.Current.CancellationToken);
 
         Assert.Null(result);
-        Assert.Null(repository.UpdatedUser);
+        Assert.Empty(repository.Users);
     }
 
     [Fact]
@@ -99,12 +95,10 @@ public class UserServiceTests
             PasswordHash = "old-hash"
         };
 
-        var repository = new FakeUserRepository
-        {
-            UserById = existingUser
-        };
+        var repository = new FakeAuthUserRepository();
+        repository.Users.Add(existingUser);
 
-        var service = new UserService(repository, new FakePasswordHashService(), NullLogger<UserService>.Instance);
+        var service = new UserService(repository, new FakePasswordHashService(), Logger<UserService>());
 
         var result = await service.UpdateAsync(new User
         {
@@ -124,13 +118,13 @@ public class UserServiceTests
     [Fact]
     public async Task SoftDeleteAsync_ShouldReturnFalse_WhenUserDoesNotExist()
     {
-        var repository = new FakeUserRepository();
-        var service = new UserService(repository, new FakePasswordHashService(), NullLogger<UserService>.Instance);
+        var repository = new FakeAuthUserRepository();
+        var service = new UserService(repository, new FakePasswordHashService(), Logger<UserService>());
 
         var result = await service.SoftDeleteAsync(Guid.NewGuid(), TestContext.Current.CancellationToken);
 
         Assert.False(result);
-        Assert.Null(repository.SoftDeletedUserId);
+        Assert.DoesNotContain(repository.Users, u => u.IsDeleted);
     }
 
     [Fact]
@@ -144,17 +138,15 @@ public class UserServiceTests
             PasswordHash = "hash"
         };
 
-        var repository = new FakeUserRepository
-        {
-            UserById = existingUser
-        };
+        var repository = new FakeAuthUserRepository();
+        repository.Users.Add(existingUser);
 
-        var service = new UserService(repository, new FakePasswordHashService(), NullLogger<UserService>.Instance);
+        var service = new UserService(repository, new FakePasswordHashService(), Logger<UserService>());
 
         var result = await service.SoftDeleteAsync(existingUser.Id, TestContext.Current.CancellationToken);
 
         Assert.True(result);
-        Assert.Equal(existingUser.Id, repository.SoftDeletedUserId);
+        Assert.True(existingUser.IsDeleted);
     }
 
     [Fact]
@@ -168,12 +160,10 @@ public class UserServiceTests
             PasswordHash = "old-hash"
         };
 
-        var repository = new FakeUserRepository
-        {
-            UserById = existingUser
-        };
+        var repository = new FakeAuthUserRepository();
+        repository.Users.Add(existingUser);
 
-        var service = new UserService(repository, new FakePasswordHashService(), NullLogger<UserService>.Instance);
+        var service = new UserService(repository, new FakePasswordHashService(), Logger<UserService>());
 
         var result = await service.UpdateProfileAsync(existingUser.Id, "New Name", "NewMail@CoffeeHub.Dev", TestContext.Current.CancellationToken);
 
@@ -195,12 +185,10 @@ public class UserServiceTests
             AvatarUrl = "https://coffeehub.dev/avatar.png"
         };
 
-        var repository = new FakeUserRepository
-        {
-            UserById = existingUser
-        };
+        var repository = new FakeAuthUserRepository();
+        repository.Users.Add(existingUser);
 
-        var service = new UserService(repository, new FakePasswordHashService(), NullLogger<UserService>.Instance);
+        var service = new UserService(repository, new FakePasswordHashService(), Logger<UserService>());
 
         var result = await service.UpdateAvatarAsync(existingUser.Id, " ", TestContext.Current.CancellationToken);
 
@@ -220,12 +208,10 @@ public class UserServiceTests
             PasswordHash = "hashed:current-password"
         };
 
-        var repository = new FakeUserRepository
-        {
-            UserById = existingUser
-        };
+        var repository = new FakeAuthUserRepository();
+        repository.Users.Add(existingUser);
 
-        var service = new UserService(repository, new FakePasswordHashService(), NullLogger<UserService>.Instance);
+        var service = new UserService(repository, new FakePasswordHashService(), Logger<UserService>());
 
         var changed = await service.ChangePasswordAsync(existingUser.Id, "current-password", "new-password", TestContext.Current.CancellationToken);
 
@@ -245,78 +231,12 @@ public class UserServiceTests
             PasswordHash = "hashed:current-password"
         };
 
-        var repository = new FakeUserRepository
-        {
-            UserById = existingUser
-        };
+        var repository = new FakeAuthUserRepository();
+        repository.Users.Add(existingUser);
 
-        var service = new UserService(repository, new FakePasswordHashService(), NullLogger<UserService>.Instance);
+        var service = new UserService(repository, new FakePasswordHashService(), Logger<UserService>());
 
         await Assert.ThrowsAsync<InvalidOperationException>(() => service.ChangePasswordAsync(existingUser.Id, "wrong-password", "new-password", TestContext.Current.CancellationToken));
     }
 
-    private sealed class FakeUserRepository : IUserRepository
-    {
-        public User? UserById { get; set; }
-        public User? UserByEmail { get; set; }
-        public User? AddedUser { get; private set; }
-        public User? UpdatedUser { get; private set; }
-        public Guid? SoftDeletedUserId { get; private set; }
-
-        public Task<IReadOnlyList<User>> GetAllAsync(CancellationToken cancellationToken = default)
-        {
-            return Task.FromResult<IReadOnlyList<User>>(Array.Empty<User>());
-        }
-
-        public Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-        {
-            return Task.FromResult(UserById?.Id == id ? UserById : null);
-        }
-
-        public Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
-        {
-            return Task.FromResult(UserByEmail?.Email == email ? UserByEmail : null);
-        }
-
-        public Task AddAsync(User user, CancellationToken cancellationToken = default)
-        {
-            AddedUser = user;
-            return Task.CompletedTask;
-        }
-
-        public Task UpdateAsync(User user, CancellationToken cancellationToken = default)
-        {
-            UpdatedUser = user;
-            return Task.CompletedTask;
-        }
-
-        public Task SoftDeleteAsync(Guid id, CancellationToken cancellationToken = default)
-        {
-            SoftDeletedUserId = id;
-            return Task.CompletedTask;
-        }
-
-        public Task<PagedResult<User>> GetPagedAsync(int page, int pageSize, CancellationToken cancellationToken = default)
-        {
-            return Task.FromResult(new PagedResult<User>());
-        }
-
-        public Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default)
-        {
-            return Task.FromResult(0);
-        }
-    }
-
-    private sealed class FakePasswordHashService : IPasswordHashService
-    {
-        public string HashPassword(User user, string password)
-        {
-            return $"hashed:{password}";
-        }
-
-        public bool VerifyHashedPassword(User user, string hashedPassword, string providedPassword)
-        {
-            return hashedPassword == $"hashed:{providedPassword}";
-        }
-    }
 }
